@@ -1,0 +1,20 @@
+title:
+  question_details: 'Question Details #%id%'
+  answers: 'Answers'
+  add_answer: 'Add an Answer'
+label:
+  id: 'ID'
+  created_at: 'Created At'
+  updated_at: 'Updated At'
+  title: 'Title'
+  category: 'Category'
+  tags: 'Tags'
+  content: 'Content'
+action:
+  back_to_list: 'Back to list'
+  submit: 'Submit'
+  login: 'Login'
+message:
+  record_not_found: 'Record not found.'
+  no_answers: 'No answers yet.'
+  login_to_answer: 'Please log in to add an answer.'

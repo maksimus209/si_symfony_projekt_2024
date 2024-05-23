@@ -24,6 +24,33 @@
                 {{ 'action.back_to_list'|trans }}
             </a>
         </p>
+
+        <!-- Display answers -->
+        <h2>{{ 'title.answers'|trans }}</h2>
+        {% if question.answers|length > 0 %}
+            <ul>
+                {% for answer in question.answers %}
+                    <li>
+                        <strong>{{ answer.author.email }}</strong> ({{ answer.createdAt|date('Y-m-d H:i') }}):
+                        <p>{{ answer.content }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>{{ 'message.no_answers'|trans }}</p>
+        {% endif %}
+
+        <!-- Answer form -->
+        {% if is_granted('ROLE_USER') %}
+            <h2>{{ 'title.add_answer'|trans }}</h2>
+            {{ form_start(answerForm) }}
+            {{ form_widget(answerForm) }}
+            <button class="btn">{{ 'action.submit'|trans }}</button>
+            {{ form_end(answerForm) }}
+        {% else %}
+            <p>{{ 'message.login_to_answer'|trans }}</p>
+            <a href="{{ path('app_login') }}">{{ 'action.login'|trans }}</a>
+        {% endif %}
     {% else %}
         <p>
             {{ 'message.record_not_found'|trans }}

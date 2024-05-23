@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Entity\Answer;
+use App\Form\Type\AnswerType;
+use App\Repository\AnswerRepository;
 
 /**
  * Class QuestionController.
@@ -54,10 +57,26 @@ class QuestionController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}', name: 'question_show', requirements: ['id' => '[1-9]\d*'], methods: ['GET'])]
-    public function show(Question $question): Response
+    #[Route('/{id}', name: 'question_show', methods: ['GET', 'POST'])]
+    public function show(Question $question, Request $request, AnswerRepository $answerRepository): Response
     {
-        return $this->render('question/show.html.twig', ['question' => $question]);
+        $answer = new Answer();
+        $answer->setQuestion($question);
+
+        $form = $this->createForm(AnswerType::class, $answer);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $answer->setAuthor($this->getUser());
+            $answerRepository->save($answer, true);
+
+            return $this->redirectToRoute('question_show', ['id' => $question->getId()]);
+        }
+
+        return $this->render('question/show.html.twig', [
+            'question' => $question,
+            'answerForm' => $form->createView(),
+        ]);
     }
 
     /**
