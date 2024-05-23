@@ -1,19 +1,19 @@
 <?php
 /**
- * Task service.
+ * Question service.
  */
 
 namespace App\Service;
 
-use App\Entity\Task;
-use App\Repository\TaskRepository;
+use App\Entity\Question;
+use App\Repository\QuestionRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 /**
- * Class TaskService.
+ * Class QuestionService.
  */
-class TaskService implements TaskServiceInterface
+class QuestionService implements QuestionServiceInterface
 {
     /**
      * Items per page.
@@ -29,10 +29,10 @@ class TaskService implements TaskServiceInterface
     /**
      * Constructor.
      *
-     * @param TaskRepository     $taskRepository Task repository
-     * @param PaginatorInterface $paginator      Paginator
+     * @param QuestionRepository $questionRepository Question repository
+     * @param PaginatorInterface $paginator          Paginator
      */
-    public function __construct(private readonly TaskRepository $taskRepository, private readonly PaginatorInterface $paginator)
+    public function __construct(private readonly QuestionRepository $questionRepository, private readonly PaginatorInterface $paginator)
     {
     }
 
@@ -46,7 +46,7 @@ class TaskService implements TaskServiceInterface
     public function getPaginatedList(int $page): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->taskRepository->queryAll(),
+            $this->questionRepository->queryAll(),
             $page,
             self::PAGINATOR_ITEMS_PER_PAGE
         );
@@ -55,20 +55,20 @@ class TaskService implements TaskServiceInterface
     /**
      * Save entity.
      *
-     * @param Task $task Task entity
+     * @param Question $question Question entity
      */
-    public function save(Task $task): void
+    public function save(Question $question): void
     {
-        $this->taskRepository->save($task);
+        $this->questionRepository->save($question);
     }
 
     /**
      * Delete entity.
      *
-     * @param Task $task Task entity
+     * @param Question $question Question entity
      */
-    public function delete(Task $task): void
+    public function delete(Question $question): void
     {
-        $this->taskRepository->delete($task);
+        $this->questionRepository->delete($question);
     }
 }

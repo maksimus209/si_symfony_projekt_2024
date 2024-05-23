@@ -1,22 +1,22 @@
 <?php
 /**
- * Task entity.
+ * Question entity.
  */
 
 namespace App\Entity;
 
-use App\Repository\TaskRepository;
+use App\Repository\QuestionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Class Task.
+ * Class Question.
  *
  * @psalm-suppress MissingConstructor
  */
-#[ORM\Entity(repositoryClass: TaskRepository::class)]
-#[ORM\Table(name: 'tasks')]
-class Task
+#[ORM\Entity(repositoryClass: QuestionRepository::class)]
+#[ORM\Table(name: 'questions')]
+class Question
 {
     /**
      * Primary key.

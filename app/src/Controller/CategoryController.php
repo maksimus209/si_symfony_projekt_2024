@@ -12,8 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -22,14 +21,19 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/category')]
 class CategoryController extends AbstractController
 {
+    private CategoryServiceInterface $categoryService;
+    private TranslatorInterface $translator;
+
     /**
      * Constructor.
      *
      * @param CategoryServiceInterface $categoryService Category service
      * @param TranslatorInterface      $translator      Translator
      */
-    public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly TranslatorInterface $translator)
+    public function __construct(CategoryServiceInterface $categoryService, TranslatorInterface $translator)
     {
+        $this->categoryService = $categoryService;
+        $this->translator = $translator;
     }
 
     /**
@@ -40,7 +44,7 @@ class CategoryController extends AbstractController
      * @return Response HTTP response
      */
     #[Route(name: 'category_index', methods: 'GET')]
-    public function index(#[MapQueryParameter] int $page = 1): Response
+    public function index(int $page = 1): Response
     {
         $pagination = $this->categoryService->getPaginatedList($page);
 
@@ -82,68 +86,52 @@ class CategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->categoryService->save($category);
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('message.created_successfully')
-            );
+            $this->addFlash('success', $this->translator->trans('message.created_successfully'));
 
             return $this->redirectToRoute('category_index');
         }
 
-        return $this->render(
-            'category/create.html.twig',
-            [
-                'form' => $form->createView(),
-            ]
-        );
+        return $this->render('category/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
      * Edit action.
      *
      * @param Request  $request  HTTP request
-     * @param Category $category Category entity
+     * @param Category $category Category
      *
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\\d*'], methods: 'GET|PUT')]
     public function edit(Request $request, Category $category): Response
     {
-        $form = $this->createForm(
-            CategoryType::class,
-            $category,
-            [
-                'method' => 'PUT',
-                'action' => $this->generateUrl('category_edit', ['id' => $category->getId()]),
-            ]
-        );
+        $form = $this->createForm(CategoryType::class, $category, [
+            'method' => 'PUT',
+            'action' => $this->generateUrl('category_edit', ['id' => $category->getId()]),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->categoryService->save($category);
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('message.updated_successfully')
-            );
+            $this->addFlash('success', $this->translator->trans('message.updated_successfully'));
 
             return $this->redirectToRoute('category_index');
         }
 
-        return $this->render(
-            'category/edit.html.twig',
-            [
-                'form' => $form->createView(),
-                'category' => $category,
-            ]
-        );
+        return $this->render('category/edit.html.twig', [
+            'form' => $form->createView(),
+            'category' => $category,
+        ]);
     }
 
     /**
      * Delete action.
      *
      * @param Request  $request  HTTP request
-     * @param Category $category Category entity
+     * @param Category $category Category
      *
      * @return Response HTTP response
      */
@@ -151,41 +139,28 @@ class CategoryController extends AbstractController
     public function delete(Request $request, Category $category): Response
     {
         if (!$this->categoryService->canBeDeleted($category)) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans('message.category_contains_tasks')
-            );
+            $this->addFlash('warning', $this->translator->trans('message.category_contains_questions'));
 
             return $this->redirectToRoute('category_index');
         }
 
-        $form = $this->createForm(
-            FormType::class,
-            $category,
-            [
-                'method' => 'DELETE',
-                'action' => $this->generateUrl('category_delete', ['id' => $category->getId()]),
-            ]
-        );
+        $form = $this->createForm(FormType::class, $category, [
+            'method' => 'DELETE',
+            'action' => $this->generateUrl('category_delete', ['id' => $category->getId()]),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->categoryService->delete($category);
 
-            $this->addFlash(
-                'success',
-                $this->translator->trans('message.deleted_successfully')
-            );
+            $this->addFlash('success', $this->translator->trans('message.deleted_successfully'));
 
             return $this->redirectToRoute('category_index');
         }
 
-        return $this->render(
-            'category/delete.html.twig',
-            [
-                'form' => $form->createView(),
-                'category' => $category,
-            ]
-        );
+        return $this->render('category/delete.html.twig', [
+            'form' => $form->createView(),
+            'category' => $category,
+        ]);
     }
 }

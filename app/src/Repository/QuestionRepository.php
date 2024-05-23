@@ -1,12 +1,12 @@
 <?php
 /**
- * Task repository.
+ * Question repository.
  */
 
 namespace App\Repository;
 
 use App\Entity\Category;
-use App\Entity\Task;
+use App\Entity\Question;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -14,16 +14,16 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * Class TaskRepository.
+ * Class QuestionRepository.
  *
- * @method Task|null find($id, $lockMode = null, $lockVersion = null)
- * @method Task|null findOneBy(array $criteria, array $orderBy = null)
- * @method Task[]    findAll()
- * @method Task[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Question|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Question|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Question[]    findAll()
+ * @method Question[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  *
- * @extends ServiceEntityRepository<Task>
+ * @extends ServiceEntityRepository<Question>
  */
-class TaskRepository extends ServiceEntityRepository
+class QuestionRepository extends ServiceEntityRepository
 {
     /**
      * Constructor.
@@ -32,7 +32,7 @@ class TaskRepository extends ServiceEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Task::class);
+        parent::__construct($registry, Question::class);
     }
 
     /**
@@ -44,19 +44,19 @@ class TaskRepository extends ServiceEntityRepository
     {
         return $this->getOrCreateQueryBuilder()
             ->select(
-                'partial task.{id, createdAt, updatedAt, title}',
+                'partial question.{id, createdAt, updatedAt, title}',
                 'partial category.{id, title}'
             )
-            ->join('task.category', 'category')
-            ->orderBy('task.updatedAt', 'DESC');
+            ->join('question.category', 'category')
+            ->orderBy('question.updatedAt', 'DESC');
     }
 
     /**
-     * Count tasks by category.
+     * Count questions by category.
      *
      * @param Category $category Category
      *
-     * @return int Number of tasks in category
+     * @return int Number of questions in category
      *
      * @throws NoResultException
      * @throws NonUniqueResultException
@@ -65,8 +65,8 @@ class TaskRepository extends ServiceEntityRepository
     {
         $qb = $this->getOrCreateQueryBuilder();
 
-        return $qb->select($qb->expr()->countDistinct('task.id'))
-            ->where('task.category = :category')
+        return $qb->select($qb->expr()->countDistinct('question.id'))
+            ->where('question.category = :category')
             ->setParameter(':category', $category)
             ->getQuery()
             ->getSingleScalarResult();
@@ -75,30 +75,30 @@ class TaskRepository extends ServiceEntityRepository
     /**
      * Save entity.
      *
-     * @param Task $task Task entity
+     * @param Question $question Question entity
      *
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function save(Task $task): void
+    public function save(Question $question): void
     {
         assert($this->_em instanceof EntityManager);
-        $this->_em->persist($task);
+        $this->_em->persist($question);
         $this->_em->flush();
     }
 
     /**
      * Delete entity.
      *
-     * @param Task $task Task entity
+     * @param Question $question Question entity
      *
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function delete(Task $task): void
+    public function delete(Question $question): void
     {
         assert($this->_em instanceof EntityManager);
-        $this->_em->remove($task);
+        $this->_em->remove($question);
         $this->_em->flush();
     }
 
@@ -111,6 +111,6 @@ class TaskRepository extends ServiceEntityRepository
      */
     private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
-        return $queryBuilder ?? $this->createQueryBuilder('task');
+        return $queryBuilder ?? $this->createQueryBuilder('question');
     }
 }

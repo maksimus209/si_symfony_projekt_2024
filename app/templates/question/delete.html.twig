@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.delete_question'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.delete_question'|trans }}</h1>
+
+    <p>{{ 'message.confirm_delete'|trans({'%title%': question.title}) }}</p>
+
+    {{ form_start(form) }}
+    <button type="submit" class="btn btn-danger">{{ 'button.delete'|trans }}</button>
+    <a href="{{ path('question_index') }}" class="btn btn-secondary">{{ 'button.cancel'|trans }}</a>
+    {{ form_end(form) }}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.edit_question'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.edit_question'|trans }}</h1>
+
+    {{ form_start(form) }}
+    <div class="form-group">
+        {{ form_label(form.title) }}
+        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.title) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.category) }}
+        {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.category) }}
+    </div>
+    <button type="submit" class="btn btn-primary">{{ 'button.save_changes'|trans }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('question_index') }}" class="btn btn-secondary">{{ 'button.back_to_list'|trans }}</a>
+{% endblock %}

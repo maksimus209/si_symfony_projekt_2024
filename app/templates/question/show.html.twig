@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.question_details'|trans({'%id%': question.id|default('')}) }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.question_details'|trans({'%id%': question.id|default('')}) }}</h1>
+    {% if question is defined and question|length %}
+        <dl class="dl-horizontal">
+            <dt>{{ 'label.id'|trans }}</dt>
+            <dd>{{ question.id }}</dd>
+            <dt>{{ 'label.created_at'|trans }}</dt>
+            <dd>{{ question.createdAt|format_date('long') }}</dd>
+            <dt>{{ 'label.updated_at'|trans }}</dt>
+            <dd>{{ question.updatedAt|format_date('long') }}</dd>
+            <dt>{{ 'label.title'|trans }}</dt>
+            <dd>{{  question.title }}</dd>
+            <dt>{{ 'label.category'|trans }}</dt>
+            <dd>{{  question.category.title }}</dd>
+        </dl>
+        <p>
+            <a href="{{ url('question_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
+            </a>
+        </p>
+    {% else %}
+        <p>
+            {{ 'message.record_not_found'|trans }}
+        </p>
+    {% endif %}
+{% endblock %}
