@@ -6,7 +6,10 @@
 namespace App\Controller;
 
 use App\Entity\Question;
+use App\Entity\Answer;
 use App\Form\Type\QuestionType;
+use App\Form\Type\AnswerType;
+use App\Repository\AnswerRepository;
 use App\Service\QuestionServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -15,9 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use App\Entity\Answer;
-use App\Form\Type\AnswerType;
-use App\Repository\AnswerRepository;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Class QuestionController.
@@ -57,7 +58,7 @@ class QuestionController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}', name: 'question_show', methods: ['GET', 'POST'])]
+    #[Route('/{id}', name: 'question_show', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'POST'])]
     public function show(Question $question, Request $request, AnswerRepository $answerRepository): Response
     {
         $answer = new Answer();
@@ -87,6 +88,7 @@ class QuestionController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/create', name: 'question_create', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request): Response
     {
         $question = new Question();
@@ -120,6 +122,7 @@ class QuestionController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'question_edit', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Question $question): Response
     {
         $form = $this->createForm(
@@ -161,6 +164,7 @@ class QuestionController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'question_delete', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'DELETE'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Question $question): Response
     {
         $form = $this->createForm(

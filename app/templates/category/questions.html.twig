@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.questions_for_category'|trans({'%category%': category.title}) }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.questions_for_category'|trans({'%category%': category.title}) }}</h1>
+
+    {% if questions is not empty %}
+        <ul>
+            {% for question in questions %}
+                <li>
+                    <a href="{{ path('question_show', {id: question.id}) }}">
+                        {{ question.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>{{ 'message.no_questions_found'|trans }}</p>
+    {% endif %}
+
+    <p>
+        <a href="{{ path('category_index') }}">{{ 'action.back_to_list'|trans }}</a>
+    </p>
+{% endblock %}

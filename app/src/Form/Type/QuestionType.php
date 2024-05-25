@@ -1,7 +1,4 @@
 <?php
-/**
- * Question type.
- */
 
 namespace App\Form\Type;
 
@@ -40,7 +37,6 @@ class QuestionType extends AbstractType
                 'attr' => ['max_length' => 255],
             ]
         );
-
         $builder->add(
             'category',
             EntityType::class,

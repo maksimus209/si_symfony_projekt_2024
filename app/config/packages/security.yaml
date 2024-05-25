@@ -28,6 +28,7 @@ security:
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/answer/new, roles: PUBLIC_ACCESS }
+        - { path: ^/question, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER }
 
 when@test:

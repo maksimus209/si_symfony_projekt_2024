@@ -36,6 +36,22 @@ class QuestionRepository extends ServiceEntityRepository
     }
 
     /**
+     * Find questions by category.
+     *
+     * @param Category $category
+     * @return Question[]
+     */
+    public function findByCategory(Category $category): array
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.category = :category')
+            ->setParameter('category', $category)
+            ->orderBy('q.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * Query all records.
      *
      * @return QueryBuilder Query builder

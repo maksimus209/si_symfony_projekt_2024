@@ -6,7 +6,7 @@
 
 {% block body %}
     <h1>{{ 'title.category_details'|trans({'%id%': category.id|default('')}) }}</h1>
-    {% if category is defined and category|length %}
+    {% if category is defined %}
         <dl class="dl-horizontal">
             <dt>{{ 'label.id'|trans }}</dt>
             <dd>{{ category.id }}</dd>
@@ -15,9 +15,9 @@
             <dt>{{ 'label.updated_at'|trans }}</dt>
             <dd>{{ category.updatedAt|format_date('long') }}</dd>
             <dt>{{ 'label.title'|trans }}</dt>
-            <dd>{{  category.title }}</dd>
+            <dd>{{ category.title }}</dd>
         </dl>
-        {% if tasks is defined and tasks|length %}
+        {% if category.questions is defined and category.questions|length %}
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -28,12 +28,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for task in tasks %}
+                {% for question in category.questions %}
                     <tr>
-                        <td>{{ task.id }}</td>
-                        <td><a href="{{ url('task_show', {id: task.id}) }}" class="no_underline">{{ task.title }}</a></td> {# TODO title attribute #}
-                        <td>{{ task.createdAt|format_date('long') }}</td>
-                        <td>{{ task.updatedAt|format_date('long') }}</td>
+                        <td>{{ question.id }}</td>
+                        <td><a href="{{ url('question_show', {id: question.id}) }}" class="no_underline">{{ question.title }}</a></td>
+                        <td>{{ question.createdAt|format_date('long') }}</td>
+                        <td>{{ question.updatedAt|format_date('long') }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

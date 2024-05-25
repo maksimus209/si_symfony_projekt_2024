@@ -18,3 +18,6 @@ message:
   record_not_found: 'Record not found.'
   no_answers: 'No answers yet.'
   login_to_answer: 'Please log in to add an answer.'
+title.questions_for_category: "Questions for category: %category%"
+message.no_questions_found: "No questions found for this category."
+action.back_to_list: "Back to list"

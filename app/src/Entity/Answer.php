@@ -18,8 +18,6 @@ class Answer
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,8 +26,6 @@ class Answer
 
     /**
      * Content of the answer.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
@@ -37,8 +33,6 @@ class Answer
 
     /**
      * Creation date of the answer.
-     *
-     * @var \DateTimeInterface|null
      */
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\NotNull]
@@ -46,8 +40,6 @@ class Answer
 
     /**
      * Question associated with the answer.
-     *
-     * @var Question|null
      */
     #[ORM\ManyToOne(inversedBy: 'answers')]
     #[ORM\JoinColumn(nullable: false)]
@@ -55,8 +47,6 @@ class Answer
 
     /**
      * Author of the answer.
-     *
-     * @var User|null
      */
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true)]
@@ -72,8 +62,6 @@ class Answer
 
     /**
      * Get the ID of the answer.
-     *
-     * @return int|null
      */
     public function getId(): ?int
     {
@@ -82,8 +70,6 @@ class Answer
 
     /**
      * Get the content of the answer.
-     *
-     * @return string|null
      */
     public function getContent(): ?string
     {
@@ -92,8 +78,6 @@ class Answer
 
     /**
      * Set the content of the answer.
-     *
-     * @param string $content
      *
      * @return $this
      */
@@ -106,8 +90,6 @@ class Answer
 
     /**
      * Get the creation date of the answer.
-     *
-     * @return \DateTimeInterface|null
      */
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -116,8 +98,6 @@ class Answer
 
     /**
      * Set the creation date of the answer.
-     *
-     * @param \DateTimeInterface $createdAt
      *
      * @return $this
      */
@@ -130,8 +110,6 @@ class Answer
 
     /**
      * Get the question associated with the answer.
-     *
-     * @return Question|null
      */
     public function getQuestion(): ?Question
     {
@@ -140,8 +118,6 @@ class Answer
 
     /**
      * Set the question associated with the answer.
-     *
-     * @param Question|null $question
      *
      * @return $this
      */
@@ -154,8 +130,6 @@ class Answer
 
     /**
      * Get the author of the answer.
-     *
-     * @return User|null
      */
     public function getAuthor(): ?User
     {
@@ -164,8 +138,6 @@ class Answer
 
     /**
      * Set the author of the answer.
-     *
-     * @param User|null $author
      *
      * @return $this
      */

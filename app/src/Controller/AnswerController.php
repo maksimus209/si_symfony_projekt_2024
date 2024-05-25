@@ -23,9 +23,9 @@ class AnswerController extends AbstractController
     /**
      * Create a new answer.
      *
-     * @param Request                $request         HTTP request
-     * @param Question               $question        Question entity
-     * @param EntityManagerInterface $entityManager   Entity manager
+     * @param Request                $request       HTTP request
+     * @param Question               $question      Question entity
+     * @param EntityManagerInterface $entityManager Entity manager
      *
      * @return Response HTTP response
      */

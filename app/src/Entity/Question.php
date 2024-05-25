@@ -65,6 +65,9 @@ class Question
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class)]
     private Collection $answers;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->answers = new ArrayCollection();
@@ -163,13 +166,22 @@ class Question
     }
 
     /**
-     * @return Collection<int, Answer>
+     * Getter for answers.
+     *
+     * @return Collection<int, Answer> Answers collection
      */
     public function getAnswers(): Collection
     {
         return $this->answers;
     }
 
+    /**
+     * Add an answer.
+     *
+     * @param Answer $answer Answer entity
+     *
+     * @return $this
+     */
     public function addAnswer(Answer $answer): static
     {
         if (!$this->answers->contains($answer)) {
@@ -180,6 +192,13 @@ class Question
         return $this;
     }
 
+    /**
+     * Remove an answer.
+     *
+     * @param Answer $answer Answer entity
+     *
+     * @return $this
+     */
     public function removeAnswer(Answer $answer): static
     {
         if ($this->answers->removeElement($answer)) {

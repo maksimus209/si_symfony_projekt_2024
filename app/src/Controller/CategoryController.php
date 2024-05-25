@@ -13,7 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Repository\QuestionRepository;
 
 /**
  * Class CategoryController.
@@ -58,15 +60,15 @@ class CategoryController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(
-        '/{id}',
-        name: 'category_show',
-        requirements: ['id' => '[1-9]\\d*'],
-        methods: 'GET'
-    )]
+    #[Route('/{id}', name: 'category_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function show(Category $category): Response
     {
-        return $this->render('category/show.html.twig', ['category' => $category]);
+        $questions = $category->getQuestions();
+
+        return $this->render('category/show.html.twig', [
+            'category' => $category,
+            'questions' => $questions,
+        ]);
     }
 
     /**
@@ -77,6 +79,7 @@ class CategoryController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/create', name: 'category_create', methods: 'GET|POST')]
+    #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request): Response
     {
         $category = new Category();
@@ -105,6 +108,7 @@ class CategoryController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\\d*'], methods: 'GET|PUT')]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Category $category): Response
     {
         $form = $this->createForm(CategoryType::class, $category, [
@@ -136,6 +140,7 @@ class CategoryController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'category_delete', requirements: ['id' => '[1-9]\\d*'], methods: 'GET|DELETE')]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Category $category): Response
     {
         if (!$this->categoryService->canBeDeleted($category)) {
@@ -161,6 +166,25 @@ class CategoryController extends AbstractController
         return $this->render('category/delete.html.twig', [
             'form' => $form->createView(),
             'category' => $category,
+        ]);
+    }
+
+    /**
+     * Show questions for a category.
+     *
+     * @param Category $category
+     * @param QuestionRepository $questionRepository
+     *
+     * @return Response
+     */
+    #[Route('/{id}/questions', name: 'category_questions', requirements: ['id' => '\d+'], methods: ['GET'])]
+    public function showQuestions(Category $category, QuestionRepository $questionRepository): Response
+    {
+        $questions = $questionRepository->findByCategory($category);
+
+        return $this->render('category/questions.html.twig', [
+            'category' => $category,
+            'questions' => $questions,
         ]);
     }
 }

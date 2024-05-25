@@ -1,4 +1,7 @@
 <?php
+/**
+ * Answer type.
+ */
 
 namespace App\Form\Type;
 
