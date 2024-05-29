@@ -38,8 +38,9 @@ class QuestionRepository extends ServiceEntityRepository
     /**
      * Find questions by category.
      *
-     * @param Category $category
-     * @return Question[]
+     * @param Category $category The category to filter questions by
+     *
+     * @return Question[] Returns an array of Question objects
      */
     public function findByCategory(Category $category): array
     {

@@ -24,6 +24,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
  * Class QuestionController.
  */
 #[Route('/question')]
+/**
+ * Class QuestionController.
+ */
+#[Route('/question')]
 class QuestionController extends AbstractController
 {
     /**
@@ -54,7 +58,9 @@ class QuestionController extends AbstractController
     /**
      * Show action.
      *
-     * @param Question $question Question entity
+     * @param Question         $question         Question entity
+     * @param Request          $request          HTTP request
+     * @param AnswerRepository $answerRepository Answer repository
      *
      * @return Response HTTP response
      */
@@ -89,6 +95,7 @@ class QuestionController extends AbstractController
      */
     #[Route('/create', name: 'question_create', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_USER')]
     public function create(Request $request): Response
     {
         $question = new Question();
@@ -123,6 +130,7 @@ class QuestionController extends AbstractController
      */
     #[Route('/{id}/edit', name: 'question_edit', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
     #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Question $question): Response
     {
         $form = $this->createForm(

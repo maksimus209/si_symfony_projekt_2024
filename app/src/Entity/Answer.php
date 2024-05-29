@@ -79,6 +79,8 @@ class Answer
     /**
      * Set the content of the answer.
      *
+     * @param string $content The content of the answer
+     *
      * @return $this
      */
     public function setContent(string $content): static
@@ -98,6 +100,8 @@ class Answer
 
     /**
      * Set the creation date of the answer.
+     *
+     * @param \DateTimeInterface $createdAt The creation date
      *
      * @return $this
      */
@@ -119,6 +123,8 @@ class Answer
     /**
      * Set the question associated with the answer.
      *
+     * @param Question|null $question The question
+     *
      * @return $this
      */
     public function setQuestion(?Question $question): static
@@ -139,6 +145,8 @@ class Answer
     /**
      * Set the author of the answer.
      *
+     * @param User|null $author The author
+     *
      * @return $this
      */
     public function setAuthor(?User $author): static
@@ -147,4 +155,35 @@ class Answer
 
         return $this;
     }
+
+    /**
+     * Best answer flag.
+     *
+     * @var bool
+     */
+    #[ORM\Column(type: 'boolean')]
+    private bool $isBest = false;
+
+    /**
+     * Getter for isBest.
+     *
+     * @return bool
+     */
+    public function getIsBest(): bool
+    {
+        return $this->isBest;
+    }
+
+    /**
+     * Setter for isBest.
+     *
+     * @param bool $isBest
+     */
+    public function setIsBest(bool $isBest): static
+    {
+        $this->isBest = $isBest;
+
+        return $this;
+    }
+
 }

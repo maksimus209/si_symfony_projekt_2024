@@ -172,15 +172,15 @@ class CategoryController extends AbstractController
     /**
      * Show questions for a category.
      *
-     * @param Category $category
-     * @param QuestionRepository $questionRepository
+     * @param Category           $category           Category
+     * @param QuestionRepository $questionRepository Question repository
      *
-     * @return Response
+     * @return Response HTTP response
      */
     #[Route('/{id}/questions', name: 'category_questions', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function showQuestions(Category $category, QuestionRepository $questionRepository): Response
     {
-        $questions = $questionRepository->findByCategory($category);
+        $questions = $questionRepository->findBy(['category' => $category]);
 
         return $this->render('category/questions.html.twig', [
             'category' => $category,

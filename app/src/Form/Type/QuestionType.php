@@ -1,4 +1,7 @@
 <?php
+/**
+ * Question type.
+ */
 
 namespace App\Form\Type;
 

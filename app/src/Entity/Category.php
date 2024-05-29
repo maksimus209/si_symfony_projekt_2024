@@ -158,6 +158,9 @@ class Category
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Question::class)]
     private Collection $questions;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -175,8 +178,6 @@ class Category
      * Add a question to the category.
      *
      * @param Question $question Question entity
-     *
-     * @return self
      */
     public function addQuestion(Question $question): self
     {
@@ -192,8 +193,6 @@ class Category
      * Remove a question from the category.
      *
      * @param Question $question Question entity
-     *
-     * @return self
      */
     public function removeQuestion(Question $question): self
     {

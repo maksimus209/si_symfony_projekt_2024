@@ -15,9 +15,9 @@
             <dt>{{ 'label.updated_at'|trans }}</dt>
             <dd>{{ question.updatedAt|format_date('long') }}</dd>
             <dt>{{ 'label.title'|trans }}</dt>
-            <dd>{{  question.title }}</dd>
+            <dd>{{ question.title }}</dd>
             <dt>{{ 'label.category'|trans }}</dt>
-            <dd>{{  question.category.title }}</dd>
+            <dd>{{ question.category.title }}</dd>
         </dl>
         <p>
             <a href="{{ url('question_index') }}" title="{{ 'action.back_to_list'|trans }}">
@@ -33,6 +33,18 @@
                     <li>
                         <strong>{{ answer.author.email }}</strong> ({{ answer.createdAt|date('Y-m-d H:i') }}):
                         <p>{{ answer.content }}</p>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('answer_best', {'id': answer.id}) }}" class="btn btn-success btn-sm">{{ 'action.mark_as_best'|trans }}</a>
+                            <form method="post" action="{{ path('answer_delete', {'id': answer.id}) }}" style="display:inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ answer.id) }}">
+                                <button class="btn btn-danger btn-sm">{{ 'action.delete'|trans }}</button>
+                            </form>
+                        {% endif %}
+                        {% if answer.isBest %}
+                            <span class="badge bg-success">{{ 'label.best_answer'|trans }}</span>
+                        {% endif %}
+                        <br>
+                        <br>
                     </li>
                 {% endfor %}
             </ul>
@@ -45,7 +57,7 @@
             <h2>{{ 'title.add_answer'|trans }}</h2>
             {{ form_start(answerForm) }}
             {{ form_widget(answerForm) }}
-            <button class="btn">{{ 'action.submit'|trans }}</button>
+            <button class="btn btn-primary">{{ 'action.submit'|trans }}</button>
             {{ form_end(answerForm) }}
         {% else %}
             <p>{{ 'message.login_to_answer'|trans }}</p>
