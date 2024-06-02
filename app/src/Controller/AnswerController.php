@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\AnswerRepository;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
@@ -22,6 +23,21 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/answer')]
 class AnswerController extends AbstractController
 {
+    private AnswerRepository $answerRepository;
+    private TranslatorInterface $translator;
+
+    /**
+     * Constructor.
+     *
+     * @param AnswerRepository    $answerRepository Answer repository
+     * @param TranslatorInterface $translator       Translator
+     */
+    public function __construct(AnswerRepository $answerRepository, TranslatorInterface $translator)
+    {
+        $this->answerRepository = $answerRepository;
+        $this->translator = $translator;
+    }
+
     /**
      * Create a new answer.
      *
@@ -59,16 +75,16 @@ class AnswerController extends AbstractController
     /**
      * Mark answer as best.
      *
-     * @param Answer $answer
-     * @param AnswerRepository $answerRepository
-     * @return Response
+     * @param Answer $answer Answer entity
+     *
+     * @return Response HTTP response
      */
-    #[Route('/{id}/best', name: 'answer_best', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[Route('/{id}/best', name: 'answer_best', requirements: ['id' => '\d+'], methods: ['GET','POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function markAsBest(Answer $answer, AnswerRepository $answerRepository): Response
+    public function markAsBest(Answer $answer): Response
     {
         $answer->setIsBest(true);
-        $answerRepository->save($answer, true);
+        $this->answerRepository->save($answer, true);
 
         return $this->redirectToRoute('question_show', ['id' => $answer->getQuestion()->getId()]);
     }
@@ -77,7 +93,7 @@ class AnswerController extends AbstractController
      * Delete action.
      *
      * @param Request $request HTTP request
-     * @param Answer $answer Answer entity
+     * @param Answer  $answer  Answer entity
      *
      * @return Response HTTP response
      */

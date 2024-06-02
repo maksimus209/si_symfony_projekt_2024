@@ -8,6 +8,7 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\Question;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * Class QuestionFixtures.
@@ -16,18 +17,17 @@ class QuestionFixtures extends AbstractBaseFixtures implements DependentFixtureI
 {
     /**
      * Load data.
-     *
-     * @psalm-suppress PossiblyNullPropertyFetch
-     * @psalm-suppress PossiblyNullReference
-     * @psalm-suppress UnusedClosureParam
      */
-    public function loadData(): void
+    protected function loadData(): void
     {
-        if (null === $this->manager || null === $this->faker) {
+        if (null === $this->faker || null === $this->manager) {
             return;
         }
 
-        $this->createMany(100, 'questions', function (int $i) {
+        // Pobierz użytkownika z UserFixtures
+        $user = $this->getReference('user_reference_0'); // Użyjemy pierwszego użytkownika
+
+        $this->createMany(100, 'questions', function (int $i) use ($user) {
             $question = new Question();
             $question->setTitle($this->faker->sentence);
             $question->setCreatedAt(
@@ -43,6 +43,7 @@ class QuestionFixtures extends AbstractBaseFixtures implements DependentFixtureI
             /** @var Category $category */
             $category = $this->getRandomReference('categories');
             $question->setCategory($category);
+            $question->setAuthor($user); // Ustawienie autora pytania
 
             return $question;
         });
@@ -56,10 +57,13 @@ class QuestionFixtures extends AbstractBaseFixtures implements DependentFixtureI
      *
      * @return string[] of dependencies
      *
-     * @psalm-return array{0: CategoryFixtures::class}
+     * @psalm-return array{0: CategoryFixtures::class, 1: UserFixtures::class}
      */
     public function getDependencies(): array
     {
-        return [CategoryFixtures::class];
+        return [
+            CategoryFixtures::class,
+            UserFixtures::class,
+        ];
     }
 }

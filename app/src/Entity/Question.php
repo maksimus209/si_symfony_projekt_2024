@@ -66,6 +66,13 @@ class Question
     private Collection $answers;
 
     /**
+     * Author of the question.
+     */
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -207,6 +214,30 @@ class Question
                 $answer->setQuestion(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Getter for author.
+     *
+     * @return User|null Author
+     */
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    /**
+     * Setter for author.
+     *
+     * @param User $author Author
+     *
+     * @return $this
+     */
+    public function setAuthor(User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

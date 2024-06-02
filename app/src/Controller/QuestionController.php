@@ -80,9 +80,21 @@ class QuestionController extends AbstractController
             return $this->redirectToRoute('question_show', ['id' => $question->getId()]);
         }
 
+        // Pobierz odpowiedzi powiązane z pytaniem
+        $answers = $answerRepository->findBy(['question' => $question]);
+
+        // Sortowanie odpowiedzi, aby najlepsza była na górze
+        usort($answers, function ($a, $b) {
+            if ($a->getIsBest() === $b->getIsBest()) {
+                return 0;
+            }
+            return $a->getIsBest() ? -1 : 1;
+        });
+
         return $this->render('question/show.html.twig', [
             'question' => $question,
             'answerForm' => $form->createView(),
+            'answers' => $answers, // Przekaż odpowiedzi do widoku
         ]);
     }
 
@@ -94,7 +106,6 @@ class QuestionController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/create', name: 'question_create', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
     #[IsGranted('ROLE_USER')]
     public function create(Request $request): Response
     {
@@ -129,7 +140,6 @@ class QuestionController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'question_edit', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
-    #[IsGranted('ROLE_ADMIN')]
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Question $question): Response
     {

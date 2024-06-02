@@ -158,16 +158,12 @@ class Answer
 
     /**
      * Best answer flag.
-     *
-     * @var bool
      */
     #[ORM\Column(type: 'boolean')]
     private bool $isBest = false;
 
     /**
      * Getter for isBest.
-     *
-     * @return bool
      */
     public function getIsBest(): bool
     {
@@ -177,7 +173,9 @@ class Answer
     /**
      * Setter for isBest.
      *
-     * @param bool $isBest
+     * @param bool $isBest Best answer flag
+     *
+     * @return $this
      */
     public function setIsBest(bool $isBest): static
     {
