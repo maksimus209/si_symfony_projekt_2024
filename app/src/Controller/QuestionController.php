@@ -26,14 +26,21 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/question')]
 class QuestionController extends AbstractController
 {
+    private AnswerRepository $answerRepository;
+
     /**
      * Constructor.
      *
      * @param QuestionServiceInterface $questionService Question service
+     * @param AnswerRepository         $answerRepository Answer repository
      * @param TranslatorInterface      $translator      Translator
      */
-    public function __construct(private readonly QuestionServiceInterface $questionService, private readonly TranslatorInterface $translator)
-    {
+    public function __construct(
+        private readonly QuestionServiceInterface $questionService,
+        AnswerRepository $answerRepository,
+        private readonly TranslatorInterface $translator
+    ) {
+        $this->answerRepository = $answerRepository;
     }
 
     /**
@@ -115,6 +122,7 @@ class QuestionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $question->setAuthor($this->getUser());
             $this->questionService->save($question);
 
             $this->addFlash(
@@ -210,5 +218,32 @@ class QuestionController extends AbstractController
                 'question' => $question,
             ]
         );
+    }
+
+    /**
+     * Mark answer as best.
+     *
+     * @param Answer $answer Answer entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route('/answer/{id}/best', name: 'answer_best', requirements: ['id' => '\d+'], methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function markAsBest(Answer $answer): Response
+    {
+        $question = $answer->getQuestion();
+        $user = $this->getUser();
+
+        // Sprawdź, czy użytkownik jest autorem pytania lub adminem
+        if ($user === $question->getAuthor() || $this->isGranted('ROLE_ADMIN')) {
+            $answer->setIsBest(true);
+            $this->answerRepository->save($answer, true);
+
+            $this->addFlash('success', 'Odpowiedź została oznaczona jako najlepsza.');
+        } else {
+            $this->addFlash('error', 'Nie masz uprawnień do oznaczenia tej odpowiedzi jako najlepszej.');
+        }
+
+        return $this->redirectToRoute('question_show', ['id' => $question->getId()]);
     }
 }

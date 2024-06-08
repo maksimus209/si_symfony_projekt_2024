@@ -18,6 +18,8 @@
             <dd>{{ question.title }}</dd>
             <dt>{{ 'label.category'|trans }}</dt>
             <dd>{{ question.category.title }}</dd>
+            <dt>{{ 'label.author'|trans }}</dt>
+            <dd>{{ question.author.email }}</dd> <!-- Dodane -->
         </dl>
         <p>
             <a href="{{ path('question_index') }}" title="{{ 'action.back_to_list'|trans }}">
