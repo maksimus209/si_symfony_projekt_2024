@@ -26,6 +26,7 @@ security:
         ROLE_ADMIN: [ROLE_USER]
 
     access_control:
+        - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/answer/new, roles: PUBLIC_ACCESS }
         - { path: ^/question/create, roles: ROLE_USER }
@@ -33,7 +34,6 @@ security:
         - { path: ^/answer/\d+/best, roles: ROLE_USER }
         - { path: ^/answer/\d+/delete, roles: ROLE_USER }
         - { path: ^/, roles: ROLE_USER }
-
 
 when@test:
     security:

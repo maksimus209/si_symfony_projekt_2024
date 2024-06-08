@@ -8,13 +8,28 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\Question;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Persistence\ObjectManager;
 
 /**
  * Class QuestionFixtures.
  */
 class QuestionFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
+    /**
+     * This method must return an array of fixtures classes
+     * on which the implementing class depends on.
+     *
+     * @return string[] of dependencies
+     *
+     * @psalm-return array{0: CategoryFixtures::class, 1: UserFixtures::class}
+     */
+    public function getDependencies(): array
+    {
+        return [
+            CategoryFixtures::class,
+            UserFixtures::class,
+        ];
+    }
+
     /**
      * Load data.
      */
@@ -49,21 +64,5 @@ class QuestionFixtures extends AbstractBaseFixtures implements DependentFixtureI
         });
 
         $this->manager->flush();
-    }
-
-    /**
-     * This method must return an array of fixtures classes
-     * on which the implementing class depends on.
-     *
-     * @return string[] of dependencies
-     *
-     * @psalm-return array{0: CategoryFixtures::class, 1: UserFixtures::class}
-     */
-    public function getDependencies(): array
-    {
-        return [
-            CategoryFixtures::class,
-            UserFixtures::class,
-        ];
     }
 }

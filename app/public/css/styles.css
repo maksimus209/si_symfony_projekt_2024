@@ -1,3 +1,23 @@
-p {
-    color: red;
+/* Stylizacja dla paska nawigacyjnego */
+header, .navbar {
+    background-color: #1a1a1a; /* Bardzo ciemne szare tło */
+}
+
+header .navbar-brand,
+header .navbar-nav .nav-link {
+    color: #fff !important; /* Biały tekst */
+}
+
+header .navbar-nav .nav-link:hover {
+    text-decoration: underline; /* Podkreślenie przy najechaniu */
+}
+
+/* Stylizacja dla treści strony */
+body {
+    background-color: #f8f9fa; /* Jasne tło dla całej strony */
+    color: #000; /* Czarny tekst dla treści */
+}
+
+main {
+    padding: 20px;
 }

@@ -63,6 +63,17 @@ class Category
     #[Gedmo\Slug(fields: ['title'])]
     private ?string $slug;
 
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Question::class)]
+    private Collection $questions;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->questions = new ArrayCollection();
+    }
+
     /**
      * Getter for Id.
      *
@@ -87,10 +98,14 @@ class Category
      * Setter for created at.
      *
      * @param \DateTimeImmutable|null $createdAt Created at
+     *
+     * @return $this
      */
-    public function setCreatedAt(?\DateTimeImmutable $createdAt): void
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     /**
@@ -107,10 +122,14 @@ class Category
      * Setter for updated at.
      *
      * @param \DateTimeImmutable|null $updatedAt Updated at
+     *
+     * @return $this
      */
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 
     /**
@@ -127,10 +146,14 @@ class Category
      * Setter for title.
      *
      * @param string|null $title Title
+     *
+     * @return $this
      */
-    public function setTitle(?string $title): void
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
+
+        return $this;
     }
 
     /**
@@ -147,6 +170,8 @@ class Category
      * Setter for slug.
      *
      * @param string $slug Slug
+     *
+     * @return $this
      */
     public function setSlug(string $slug): static
     {
@@ -155,19 +180,10 @@ class Category
         return $this;
     }
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Question::class)]
-    private Collection $questions;
-
     /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        $this->questions = new ArrayCollection();
-    }
-
-    /**
-     * @return Collection<int, Question>
+     * Getter for questions.
+     *
+     * @return Collection<int, Question> Questions
      */
     public function getQuestions(): Collection
     {
@@ -178,8 +194,10 @@ class Category
      * Add a question to the category.
      *
      * @param Question $question Question entity
+     *
+     * @return $this
      */
-    public function addQuestion(Question $question): self
+    public function addQuestion(Question $question): static
     {
         if (!$this->questions->contains($question)) {
             $this->questions[] = $question;
@@ -193,8 +211,10 @@ class Category
      * Remove a question from the category.
      *
      * @param Question $question Question entity
+     *
+     * @return $this
      */
-    public function removeQuestion(Question $question): self
+    public function removeQuestion(Question $question): static
     {
         if ($this->questions->removeElement($question)) {
             // set the owning side to null (unless already changed)

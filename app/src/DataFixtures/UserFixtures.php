@@ -55,7 +55,7 @@ class UserFixtures extends Fixture
             $manager->persist($user);
 
             // Dodanie referencji do użytkownika
-            $this->addReference('user_reference_' . $i, $user);
+            $this->addReference('user_reference_'.$i, $user);
         }
 
         for ($i = 0; $i < 2; ++$i) {
@@ -71,7 +71,7 @@ class UserFixtures extends Fixture
             $manager->persist($admin);
 
             // Dodanie referencji do administratora
-            $this->addReference('admin_reference_' . $i, $admin);
+            $this->addReference('admin_reference_'.$i, $admin);
         }
 
         $manager->flush();

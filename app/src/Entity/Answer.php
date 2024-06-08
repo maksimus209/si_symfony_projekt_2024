@@ -53,6 +53,12 @@ class Answer
     private ?User $author = null;
 
     /**
+     * Best answer flag.
+     */
+    #[ORM\Column(type: 'boolean')]
+    private bool $isBest = false;
+
+    /**
      * Constructor.
      */
     public function __construct()
@@ -62,6 +68,8 @@ class Answer
 
     /**
      * Get the ID of the answer.
+     *
+     * @return int|null The ID of the answer
      */
     public function getId(): ?int
     {
@@ -70,6 +78,8 @@ class Answer
 
     /**
      * Get the content of the answer.
+     *
+     * @return string|null The content of the answer
      */
     public function getContent(): ?string
     {
@@ -92,6 +102,8 @@ class Answer
 
     /**
      * Get the creation date of the answer.
+     *
+     * @return \DateTimeInterface|null The creation date
      */
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -114,6 +126,8 @@ class Answer
 
     /**
      * Get the question associated with the answer.
+     *
+     * @return Question|null The question
      */
     public function getQuestion(): ?Question
     {
@@ -136,6 +150,8 @@ class Answer
 
     /**
      * Get the author of the answer.
+     *
+     * @return User|null The author
      */
     public function getAuthor(): ?User
     {
@@ -157,13 +173,9 @@ class Answer
     }
 
     /**
-     * Best answer flag.
-     */
-    #[ORM\Column(type: 'boolean')]
-    private bool $isBest = false;
-
-    /**
-     * Getter for isBest.
+     * Get the best answer flag.
+     *
+     * @return bool The best answer flag
      */
     public function getIsBest(): bool
     {
@@ -171,7 +183,7 @@ class Answer
     }
 
     /**
-     * Setter for isBest.
+     * Set the best answer flag.
      *
      * @param bool $isBest Best answer flag
      *

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block body %}
+    <h1>User Profile</h1>
+    <p>Email: {{ user.email }}</p>
+    <!-- Dodaj inne informacje, które chcesz wyświetlić -->
+
+    <!-- Przycisk wróć na stronę główną -->
+    <a href="{{ path('question_index') }}" class="btn btn-primary">Wróć na stronę główną</a>
+
+    <!-- Przycisk zmień dane -->
+    <a href="{{ path('user_change_email_password') }}" class="btn btn-secondary">Zmień dane</a>
+{% endblock %}

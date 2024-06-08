@@ -79,7 +79,7 @@ class AnswerController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/best', name: 'answer_best', requirements: ['id' => '\d+'], methods: ['GET','POST'])]
+    #[Route('/{id}/best', name: 'answer_best', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function markAsBest(Answer $answer): Response
     {

@@ -24,10 +24,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
  * Class QuestionController.
  */
 #[Route('/question')]
-/**
- * Class QuestionController.
- */
-#[Route('/question')]
 class QuestionController extends AbstractController
 {
     /**
@@ -88,6 +84,7 @@ class QuestionController extends AbstractController
             if ($a->getIsBest() === $b->getIsBest()) {
                 return 0;
             }
+
             return $a->getIsBest() ? -1 : 1;
         });
 
