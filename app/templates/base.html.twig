@@ -31,11 +31,17 @@
                     </li>
                     <li class="nav-item">
                         {% if is_granted('ROLE_ADMIN') %}
+                            <a class="nav-link" href="{{ path('admin_user_index') }}">Użytkownicy</a>
+                        {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        {% if is_granted('ROLE_ADMIN') %}
                             <a class="nav-link" href="{{ path('admin_profile') }}">Konto</a>
                         {% elseif is_granted('ROLE_USER') %}
                             <a class="nav-link" href="{{ path('user_profile') }}">Konto</a>
                         {% endif %}
                     </li>
+
                 </ul>
             </div>
         </div>

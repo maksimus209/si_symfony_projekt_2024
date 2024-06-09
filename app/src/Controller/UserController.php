@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * UserController.
+ */
+
 namespace App\Controller;
 
 use App\Form\Type\ChangeEmailAndPasswordType;
@@ -14,9 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
- * Class UserController
- *
- * @package App\Controller
+ * Class UserController.
  */
 class UserController extends AbstractController
 {
@@ -25,7 +27,7 @@ class UserController extends AbstractController
     /**
      * UserController constructor.
      *
-     * @param EntityManagerInterface $entityManager
+     * @param EntityManagerInterface $entityManager Entity manager
      */
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -51,9 +53,9 @@ class UserController extends AbstractController
     /**
      * Change email and password action.
      *
-     * @param Request $request HTTP request
+     * @param Request                     $request        HTTP request
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
-     * @param TranslatorInterface $translator Translator
+     * @param TranslatorInterface         $translator     Translator
      *
      * @return Response HTTP response
      */
@@ -79,6 +81,7 @@ class UserController extends AbstractController
             $currentPassword = $form->get('currentPassword')->getData();
             if (!$passwordHasher->isPasswordValid($user, $currentPassword)) {
                 $this->addFlash('error', $translator->trans('message.invalid_current_password'));
+
                 return $this->redirectToRoute('user_change_email_password');
             }
 

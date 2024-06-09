@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista użytkowników{% endblock %}
+
+{% block body %}
+    <h1>Lista użytkowników</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-primary">Edytuj</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_profile') }}" class="btn btn-secondary">Wróć do profilu</a>
+{% endblock %}

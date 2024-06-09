@@ -1,31 +1,29 @@
 <?php
 /*
- * Changing Type
+ * EditUser Type
  */
 
 namespace App\Form\Type;
 
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Callback;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
- * Class ChangeEmailAndPasswordType.
- *
- * Form type for changing email and password.
+ * Class EditUserType.
  */
-class ChangeEmailAndPasswordType extends AbstractType
+class EditUserType extends AbstractType
 {
     /**
-     * Build form.
+     * Builds the form.
      *
      * @param FormBuilderInterface $builder The form builder
-     * @param array                $options The form options
+     * @param array                $options The options for this form
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -63,30 +61,14 @@ class ChangeEmailAndPasswordType extends AbstractType
     }
 
     /**
-     * Validate passwords.
+     * Configures the options for this form.
      *
-     * @param mixed                     $value   The value
-     * @param ExecutionContextInterface $context The execution context
-     */
-    public function validatePasswords($value, ExecutionContextInterface $context): void
-    {
-        $form = $context->getRoot();
-        $newPassword = $form->get('newPassword')->getData();
-
-        if ($value !== $newPassword) {
-            $context->buildViolation('Passwords do not match.')
-                ->atPath('confirmNewPassword')
-                ->addViolation();
-        }
-    }
-
-    /**
-     * Configure options.
-     *
-     * @param OptionsResolver $resolver The options resolver
+     * @param OptionsResolver $resolver The resolver for the options
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([]);
+        $resolver->setDefaults([
+            'data_class' => User::class,
+        ]);
     }
 }

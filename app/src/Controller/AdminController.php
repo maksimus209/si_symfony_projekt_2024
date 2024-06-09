@@ -1,4 +1,7 @@
 <?php
+/*
+ * Admin Controller
+ */
 
 namespace App\Controller;
 
@@ -14,9 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
- * Class AdminController
- *
- * @package App\Controller
+ * Class AdminController.
  */
 class AdminController extends AbstractController
 {
@@ -25,7 +26,7 @@ class AdminController extends AbstractController
     /**
      * AdminController constructor.
      *
-     * @param EntityManagerInterface $entityManager
+     * @param EntityManagerInterface $entityManager The entity manager
      */
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -51,9 +52,9 @@ class AdminController extends AbstractController
     /**
      * Change email and password action.
      *
-     * @param Request $request HTTP request
+     * @param Request                     $request        HTTP request
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
-     * @param TranslatorInterface $translator Translator
+     * @param TranslatorInterface         $translator     Translator
      *
      * @return Response HTTP response
      */
@@ -79,6 +80,7 @@ class AdminController extends AbstractController
             $currentPassword = $form->get('currentPassword')->getData();
             if (!$passwordHasher->isPasswordValid($user, $currentPassword)) {
                 $this->addFlash('error', $translator->trans('message.invalid_current_password'));
+
                 return $this->redirectToRoute('admin_change_email_password');
             }
 

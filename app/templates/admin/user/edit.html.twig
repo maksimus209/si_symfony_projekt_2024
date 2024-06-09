@@ -1,14 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Change Email and Password{% endblock %}
-
 {% block body %}
-    <h1>Change Email and Password</h1>
+    <h1>Edit User</h1>
+
     {{ form_start(form) }}
     {{ form_row(form.email) }}
     {{ form_row(form.currentPassword) }}
     {{ form_row(form.newPassword) }}
     {{ form_row(form.confirmNewPassword) }}
-    <button class="btn">Change Email and Password</button>
+    <button class="btn">{{ button_label|default('Save') }}</button>
     {{ form_end(form) }}
 {% endblock %}
