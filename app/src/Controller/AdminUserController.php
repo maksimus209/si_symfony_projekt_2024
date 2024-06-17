@@ -35,7 +35,7 @@ class AdminUserController extends AbstractController
     /**
      * AdminUserController constructor.
      *
-     * @param EntityManagerInterface $entityManager Entity manager
+     * @param EntityManagerInterface      $entityManager  Entity manager
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
      */
     public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)

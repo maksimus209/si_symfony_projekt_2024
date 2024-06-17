@@ -22,8 +22,6 @@ class Question
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,7 +31,6 @@ class Question
     /**
      * Created at.
      *
-     * @var \DateTimeImmutable|null
      * @psalm-suppress PropertyNotSetInConstructor
      */
     #[ORM\Column(type: 'datetime_immutable')]
@@ -43,7 +40,6 @@ class Question
     /**
      * Updated at.
      *
-     * @var \DateTimeImmutable|null
      * @psalm-suppress PropertyNotSetInConstructor
      */
     #[ORM\Column(type: 'datetime_immutable')]
@@ -52,16 +48,12 @@ class Question
 
     /**
      * Title.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $title = null;
 
     /**
      * Category.
-     *
-     * @var Category|null
      */
     #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: false)]
@@ -77,8 +69,6 @@ class Question
 
     /**
      * Author of the question.
-     *
-     * @var User|null
      */
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]

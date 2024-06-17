@@ -31,15 +31,12 @@ class QuestionController extends AbstractController
     /**
      * Constructor.
      *
-     * @param QuestionServiceInterface $questionService Question service
+     * @param QuestionServiceInterface $questionService  Question service
      * @param AnswerRepository         $answerRepository Answer repository
-     * @param TranslatorInterface      $translator      Translator
+     * @param TranslatorInterface      $translator       Translator
      */
-    public function __construct(
-        private readonly QuestionServiceInterface $questionService,
-        AnswerRepository $answerRepository,
-        private readonly TranslatorInterface $translator
-    ) {
+    public function __construct(private readonly QuestionServiceInterface $questionService, AnswerRepository $answerRepository, private readonly TranslatorInterface $translator)
+    {
         $this->answerRepository = $answerRepository;
     }
 
