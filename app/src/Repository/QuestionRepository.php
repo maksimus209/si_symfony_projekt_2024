@@ -7,6 +7,7 @@ namespace App\Repository;
 
 use App\Entity\Category;
 use App\Entity\Question;
+use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -53,6 +54,24 @@ class QuestionRepository extends ServiceEntityRepository
     }
 
     /**
+     * Find questions by tag.
+     *
+     * @param Tag $tag The tag to filter questions by
+     *
+     * @return Question[] Returns an array of Question objects
+     */
+    public function findByTag(Tag $tag): array
+    {
+        return $this->createQueryBuilder('q')
+            ->innerJoin('q.tags', 't')
+            ->andWhere('t.id = :tag')
+            ->setParameter('tag', $tag)
+            ->orderBy('q.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * Query all records.
      *
      * @return QueryBuilder Query builder
@@ -85,6 +104,28 @@ class QuestionRepository extends ServiceEntityRepository
         return $qb->select($qb->expr()->countDistinct('question.id'))
             ->where('question.category = :category')
             ->setParameter(':category', $category)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Count questions by tag.
+     *
+     * @param Tag $tag Tag
+     *
+     * @return int Number of questions with tag
+     *
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function countByTag(Tag $tag): int
+    {
+        $qb = $this->getOrCreateQueryBuilder();
+
+        return $qb->select($qb->expr()->countDistinct('question.id'))
+            ->innerJoin('question.tags', 't')
+            ->where('t.id = :tag')
+            ->setParameter(':tag', $tag)
             ->getQuery()
             ->getSingleScalarResult();
     }

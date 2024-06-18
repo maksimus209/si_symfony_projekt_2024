@@ -225,4 +225,14 @@ class Category
 
         return $this;
     }
+
+    /**
+     * String representation of the category.
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getTitle();
+    }
 }

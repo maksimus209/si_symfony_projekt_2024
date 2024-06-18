@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Tag{% endblock %}
+
+{% block body %}
+    <h1>Edit Tag</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary">Save changes</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('tag_index') }}">back to list</a>
+    <form method="post" action="{{ path('tag_delete', {'id': tag.id}) }}" style="display:inline-block;">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ tag.id) }}">
+        <button class="btn btn-danger">delete</button>
+    </form>
+{% endblock %}

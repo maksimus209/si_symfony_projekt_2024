@@ -51,7 +51,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Save a user entity.
      *
-     * @param User $user The user entity to save
+     * @param User $user  The user entity to save
      * @param bool $flush Whether to flush the changes to the database
      */
     public function save(User $user, bool $flush = false): void

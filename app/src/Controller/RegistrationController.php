@@ -62,6 +62,7 @@ class RegistrationController extends AbstractController
 
             if (count($emailViolations) > 0 || count($passwordViolations) > 0 || $plainPassword !== $confirmPassword) {
                 $this->addFlash('error', 'Invalid input data.');
+
                 return $this->render('registration/register.html.twig');
             }
 
@@ -74,6 +75,7 @@ class RegistrationController extends AbstractController
             $this->userRepository->save($user, true);
 
             $this->addFlash('success', 'Registration successful!');
+
             return $this->redirectToRoute('app_login');
         }
 

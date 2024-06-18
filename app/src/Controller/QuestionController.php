@@ -10,7 +10,10 @@ use App\Entity\Answer;
 use App\Form\Type\QuestionType;
 use App\Form\Type\AnswerType;
 use App\Repository\AnswerRepository;
+use App\Repository\CategoryRepository;
+use App\Repository\TagRepository;
 use App\Service\QuestionServiceInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,48 +24,65 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
- * Class QuestionController.
+ * Klasa QuestionController.
  */
 #[Route('/question')]
 class QuestionController extends AbstractController
 {
     private AnswerRepository $answerRepository;
+    private TagRepository $tagRepository;
+    private CategoryRepository $categoryRepository;
+    private EntityManagerInterface $entityManager;
 
     /**
-     * Constructor.
+     * Konstruktor.
      *
-     * @param QuestionServiceInterface $questionService  Question service
-     * @param AnswerRepository         $answerRepository Answer repository
-     * @param TranslatorInterface      $translator       Translator
+     * @param QuestionServiceInterface $questionService    Serwis pytań
+     * @param AnswerRepository         $answerRepository   Repozytorium odpowiedzi
+     * @param TagRepository            $tagRepository      Repozytorium tagów
+     * @param CategoryRepository       $categoryRepository Repozytorium kategorii
+     * @param EntityManagerInterface   $entityManager      Menedżer encji
+     * @param TranslatorInterface      $translator         Tłumacz
      */
-    public function __construct(private readonly QuestionServiceInterface $questionService, AnswerRepository $answerRepository, private readonly TranslatorInterface $translator)
+    public function __construct(QuestionServiceInterface $questionService, AnswerRepository $answerRepository, TagRepository $tagRepository, CategoryRepository $categoryRepository, EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
+        $this->questionService = $questionService;
         $this->answerRepository = $answerRepository;
+        $this->tagRepository = $tagRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->entityManager = $entityManager;
+        $this->translator = $translator;
     }
 
     /**
-     * Index action.
+     * Akcja indeksowania.
      *
-     * @param int $page Page number
+     * @param int $page Numer strony
      *
-     * @return Response HTTP response
+     * @return Response Odpowiedź HTTP
      */
     #[Route(name: 'question_index', methods: ['GET'])]
     public function index(#[MapQueryParameter] int $page = 1): Response
     {
         $pagination = $this->questionService->getPaginatedList($page);
+        $tags = $this->tagRepository->findAll();
+        $categories = $this->categoryRepository->findAll(); // Pobierz wszystkie kategorie
 
-        return $this->render('question/index.html.twig', ['pagination' => $pagination]);
+        return $this->render('question/index.html.twig', [
+            'pagination' => $pagination,
+            'tags' => $tags,
+            'categories' => $categories, // Przekaż kategorie do widoku
+        ]);
     }
 
     /**
-     * Show action.
+     * Akcja wyświetlania.
      *
-     * @param Question         $question         Question entity
-     * @param Request          $request          HTTP request
-     * @param AnswerRepository $answerRepository Answer repository
+     * @param Question         $question         Encja pytania
+     * @param Request          $request          Żądanie HTTP
+     * @param AnswerRepository $answerRepository Repozytorium odpowiedzi
      *
-     * @return Response HTTP response
+     * @return Response Odpowiedź HTTP
      */
     #[Route('/{id}', name: 'question_show', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'POST'])]
     public function show(Question $question, Request $request, AnswerRepository $answerRepository): Response
@@ -92,19 +112,22 @@ class QuestionController extends AbstractController
             return $a->getIsBest() ? -1 : 1;
         });
 
+        $tags = $this->tagRepository->findAll(); // Pobierz wszystkie tagi
+
         return $this->render('question/show.html.twig', [
             'question' => $question,
             'answerForm' => $form->createView(),
-            'answers' => $answers, // Przekaż odpowiedzi do widoku
+            'answers' => $answers,
+            'tags' => $tags, // Przekaż tagi do widoku
         ]);
     }
 
     /**
-     * Create action.
+     * Akcja tworzenia.
      *
-     * @param Request $request HTTP request
+     * @param Request $request Żądanie HTTP
      *
-     * @return Response HTTP response
+     * @return Response Odpowiedź HTTP
      */
     #[Route('/create', name: 'question_create', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
@@ -130,58 +153,53 @@ class QuestionController extends AbstractController
             return $this->redirectToRoute('question_index');
         }
 
-        return $this->render('question/create.html.twig', ['form' => $form->createView()]);
+        $tags = $this->tagRepository->findAll(); // Pobierz wszystkie tagi
+
+        return $this->render('question/create.html.twig', [
+            'form' => $form->createView(),
+            'tags' => $tags, // Przekaż tagi do widoku
+        ]);
     }
 
     /**
-     * Edit action.
+     * Akcja edycji.
      *
-     * @param Request  $request  HTTP request
-     * @param Question $question Question entity
+     * @param Request  $request  Żądanie HTTP
+     * @param Question $question Encja pytania
      *
-     * @return Response HTTP response
+     * @return Response Odpowiedź HTTP
      */
-    #[Route('/{id}/edit', name: 'question_edit', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
+    #[Route('/{id}/edit', name: 'question_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Question $question): Response
     {
-        $form = $this->createForm(
-            QuestionType::class,
-            $question,
-            [
-                'method' => 'PUT',
-                'action' => $this->generateUrl('question_edit', ['id' => $question->getId()]),
-            ]
-        );
+        $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->questionService->save($question);
+            $this->entityManager->flush();
 
             $this->addFlash(
                 'success',
-                $this->translator->trans('message.edited_successfully')
+                $this->translator->trans('message.updated_successfully')
             );
 
             return $this->redirectToRoute('question_index');
         }
 
-        return $this->render(
-            'question/edit.html.twig',
-            [
-                'form' => $form->createView(),
-                'question' => $question,
-            ]
-        );
+        return $this->render('question/edit.html.twig', [
+            'question' => $question,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
-     * Delete action.
+     * Akcja usuwania.
      *
-     * @param Request  $request  HTTP request
-     * @param Question $question Question entity
+     * @param Request  $request  Żądanie HTTP
+     * @param Question $question Encja pytania
      *
-     * @return Response HTTP response
+     * @return Response Odpowiedź HTTP
      */
     #[Route('/{id}/delete', name: 'question_delete', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'DELETE'])]
     #[IsGranted('ROLE_ADMIN')]
@@ -208,21 +226,21 @@ class QuestionController extends AbstractController
             return $this->redirectToRoute('question_index');
         }
 
-        return $this->render(
-            'question/delete.html.twig',
-            [
-                'form' => $form->createView(),
-                'question' => $question,
-            ]
-        );
+        $tags = $this->tagRepository->findAll(); // Pobierz wszystkie tagi
+
+        return $this->render('question/delete.html.twig', [
+            'form' => $form->createView(),
+            'question' => $question,
+            'tags' => $tags, // Przekaż tagi do widoku
+        ]);
     }
 
     /**
-     * Mark answer as best.
+     * Oznacz odpowiedź jako najlepszą.
      *
-     * @param Answer $answer Answer entity
+     * @param Answer $answer Encja odpowiedzi
      *
-     * @return Response HTTP response
+     * @return Response Odpowiedź HTTP
      */
     #[Route('/answer/{id}/best', name: 'answer_best', requirements: ['id' => '\d+'], methods: ['POST'])]
     #[IsGranted('ROLE_USER')]

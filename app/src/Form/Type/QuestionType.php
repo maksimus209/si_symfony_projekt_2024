@@ -1,80 +1,71 @@
 <?php
-/**
- * Question type.
- */
+// src/Form/Type/QuestionType.php
 
 namespace App\Form\Type;
 
-use App\Entity\Category;
 use App\Entity\Question;
+use App\Entity\Tag;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class QuestionType.
+ *
+ * This class represents the form type for the Question entity.
  */
 class QuestionType extends AbstractType
 {
     /**
-     * Builds the form.
-     *
-     * This method is called for each type in the hierarchy starting from the
-     * top most type. Type extensions can further modify the form.
+     * Build the form.
      *
      * @param FormBuilderInterface $builder The form builder
-     * @param array<string, mixed> $options Form options
-     *
-     * @see FormTypeExtensionInterface::buildForm()
+     * @param array                $options The options for this form type
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add(
-            'title',
-            TextType::class,
-            [
-                'label' => 'label.title',
-                'required' => true,
-                'attr' => ['max_length' => 255],
-            ]
-        );
-        $builder->add(
-            'category',
-            EntityType::class,
-            [
-                'class' => Category::class,
-                'choice_label' => function ($category): string {
-                    return $category->getTitle();
-                },
-                'label' => 'label.category',
-                'placeholder' => 'label.none',
-                'required' => true,
-            ]
-        );
+        $builder
+            ->add('title', null, [
+                'label' => 'Tytuł',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('category', null, [
+                'label' => 'Kategoria',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('tags', EntityType::class, [
+                'class' => Tag::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true,
+                'label' => 'Tagi',
+                'attr' => [
+                    'class' => 'form-check',
+                ],
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => 'Zapisz',
+                'attr' => [
+                    'class' => 'btn btn-primary mt-3',
+                ],
+            ]);
     }
 
     /**
-     * Configures the options for this type.
+     * Configure the options for this form type.
      *
-     * @param OptionsResolver $resolver The resolver for the options
+     * @param OptionsResolver $resolver The options resolver
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => Question::class]);
-    }
-
-    /**
-     * Returns the prefix of the template block name for this type.
-     *
-     * The block prefix defaults to the underscored short class name with
-     * the "Type" suffix removed (e.g. "UserProfileType" => "user_profile").
-     *
-     * @return string The prefix of the template block name
-     */
-    public function getBlockPrefix(): string
-    {
-        return 'question';
+        $resolver->setDefaults([
+            'data_class' => Question::class,
+        ]);
     }
 }

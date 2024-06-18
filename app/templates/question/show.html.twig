@@ -19,7 +19,13 @@
             <dt>{{ 'label.category'|trans }}</dt>
             <dd>{{ question.category.title }}</dd>
             <dt>{{ 'label.author'|trans }}</dt>
-            <dd>{{ question.author.email }}</dd> <!-- Dodane -->
+            <dd>{{ question.author.email }}</dd>
+            <dt>{{ 'label.tags'|trans }}</dt>
+            <dd>
+                {% for tag in question.tags %}
+                    <span class="badge bg-secondary">{{ tag.name }}</span>
+                {% endfor %}
+            </dd>
         </dl>
         <p>
             <a href="{{ path('question_index') }}" title="{{ 'action.back_to_list'|trans }}">

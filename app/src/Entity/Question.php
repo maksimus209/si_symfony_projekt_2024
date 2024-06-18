@@ -68,6 +68,15 @@ class Question
     private Collection $answers;
 
     /**
+     * Tags.
+     *
+     * @var Collection<int, Tag>
+     */
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'questions')]
+    #[ORM\JoinTable(name: 'question_tag')]
+    private Collection $tags;
+
+    /**
      * Author of the question.
      */
     #[ORM\ManyToOne(targetEntity: User::class)]
@@ -80,6 +89,7 @@ class Question
     public function __construct()
     {
         $this->answers = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     /**
@@ -217,6 +227,49 @@ class Question
             if ($answer->getQuestion() === $this) {
                 $answer->setQuestion(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Getter for tags.
+     *
+     * @return Collection<int, Tag> Tags collection
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    /**
+     * Add a tag.
+     *
+     * @param Tag $tag Tag entity
+     *
+     * @return $this
+     */
+    public function addTag(Tag $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+            $tag->addQuestion($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove a tag.
+     *
+     * @param Tag $tag Tag entity
+     *
+     * @return $this
+     */
+    public function removeTag(Tag $tag): static
+    {
+        if ($this->tags->removeElement($tag)) {
+            $tag->removeQuestion($this);
         }
 
         return $this;
