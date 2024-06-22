@@ -229,7 +229,7 @@ class Category
     /**
      * String representation of the category.
      *
-     * @return string
+     * @return string|null Slug
      */
     public function __toString(): string
     {

@@ -33,6 +33,8 @@ class QuestionController extends AbstractController
     private TagRepository $tagRepository;
     private CategoryRepository $categoryRepository;
     private EntityManagerInterface $entityManager;
+    private TranslatorInterface $translator;
+    private QuestionServiceInterface $questionService;
 
     /**
      * Konstruktor.
@@ -170,7 +172,7 @@ class QuestionController extends AbstractController
      * @return Response Odpowiedź HTTP
      */
     #[Route('/{id}/edit', name: 'question_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Question $question): Response
     {
         $form = $this->createForm(QuestionType::class, $question);
