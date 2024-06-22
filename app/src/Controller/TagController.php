@@ -7,8 +7,7 @@ namespace App\Controller;
 
 use App\Entity\Tag;
 use App\Form\Type\TagType;
-use App\Repository\TagRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\TagServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,47 +20,50 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/tag')]
 class TagController extends AbstractController
 {
+    private TagServiceInterface $tagService;
+
+    /**
+     * Constructor.
+     *
+     * @param TagServiceInterface $tagService Tag service
+     */
+    public function __construct(TagServiceInterface $tagService)
+    {
+        $this->tagService = $tagService;
+    }
+
     /**
      * Index action.
-     *
-     * @param TagRepository $tagRepository Tag repository
      *
      * @return Response HTTP response
      */
     #[Route('/', name: 'tag_index', methods: ['GET'])]
-    public function index(TagRepository $tagRepository): Response
+    public function index(): Response
     {
         return $this->render('tag/index.html.twig', [
-            'tags' => $tagRepository->findAll(),
+            'tags' => $this->tagService->getAllTags(),
         ]);
     }
 
     /**
      * New action.
      *
-     * @param Request                $request       HTTP request
-     * @param EntityManagerInterface $entityManager Entity manager
+     * @param Request $request HTTP request
      *
      * @return Response HTTP response
      */
     #[Route('/new', name: 'tag_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request): Response
     {
-        $tag = new Tag();
-        $form = $this->createForm(TagType::class, $tag);
-        $form->handleRequest($request);
+        $tag = $this->tagService->createTag($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($tag);
-            $entityManager->flush();
-
+        if (null !== $tag) {
             return $this->redirectToRoute('tag_index');
         }
 
         return $this->render('tag/new.html.twig', [
-            'tag' => $tag,
-            'form' => $form->createView(),
+            'form' => $this->createForm(TagType::class, $tag)->createView(),
         ]);
     }
 
@@ -83,48 +85,39 @@ class TagController extends AbstractController
     /**
      * Edit action.
      *
-     * @param Request                $request       HTTP request
-     * @param Tag                    $tag           Tag entity
-     * @param EntityManagerInterface $entityManager Entity manager
+     * @param Request $request HTTP request
+     * @param Tag     $tag     Tag entity
      *
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'tag_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function edit(Request $request, Tag $tag, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Tag $tag): Response
     {
-        $form = $this->createForm(TagType::class, $tag);
-        $form->handleRequest($request);
+        $updatedTag = $this->tagService->updateTag($request, $tag);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
+        if (null !== $updatedTag) {
             return $this->redirectToRoute('tag_index');
         }
 
         return $this->render('tag/edit.html.twig', [
-            'tag' => $tag,
-            'form' => $form->createView(),
+            'form' => $this->createForm(TagType::class, $tag)->createView(),
         ]);
     }
 
     /**
      * Delete action.
      *
-     * @param Request                $request       HTTP request
-     * @param Tag                    $tag           Tag entity
-     * @param EntityManagerInterface $entityManager Entity manager
+     * @param Request $request HTTP request
+     * @param Tag     $tag     Tag entity
      *
      * @return Response HTTP response
      */
     #[Route('/{id}', name: 'tag_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(Request $request, Tag $tag, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Tag $tag): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$tag->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($tag);
-            $entityManager->flush();
-        }
+        $this->tagService->deleteTag($request, $tag);
 
         return $this->redirectToRoute('tag_index');
     }

@@ -11,10 +11,4 @@
     {{ form_end(form) }}
 
     <a href="{{ path('tag_index') }}">back to list</a>
-    <br>
-    <br>
-    <form method="post" action="{{ path('tag_delete', {'id': tag.id}) }}" style="display:inline-block;">
-        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ tag.id) }}">
-        <button class="btn btn-danger">delete</button>
-    </form>
 {% endblock %}
