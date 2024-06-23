@@ -66,6 +66,8 @@ class Tag
 
     /**
      * Get the ID of the tag.
+     *
+     * @return int|null
      */
     public function getId(): ?int
     {
@@ -74,6 +76,8 @@ class Tag
 
     /**
      * Get the name of the tag.
+     *
+     * @return string|null
      */
     public function getName(): ?string
     {
@@ -82,6 +86,10 @@ class Tag
 
     /**
      * Set the name of the tag.
+     *
+     * @param string $name
+     *
+     * @return self
      */
     public function setName(string $name): self
     {
@@ -92,6 +100,8 @@ class Tag
 
     /**
      * Get the created at date.
+     *
+     * @return \DateTimeImmutable|null
      */
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -100,6 +110,10 @@ class Tag
 
     /**
      * Set the created at date.
+     *
+     * @param \DateTimeImmutable $createdAt
+     *
+     * @return self
      */
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
@@ -110,6 +124,8 @@ class Tag
 
     /**
      * Get the updated at date.
+     *
+     * @return \DateTimeImmutable|null
      */
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
@@ -118,6 +134,10 @@ class Tag
 
     /**
      * Set the updated at date.
+     *
+     * @param \DateTimeImmutable $updatedAt
+     *
+     * @return self
      */
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
@@ -138,6 +158,10 @@ class Tag
 
     /**
      * Add a question to the tag.
+     *
+     * @param Question $question
+     *
+     * @return self
      */
     public function addQuestion(Question $question): self
     {
@@ -151,6 +175,10 @@ class Tag
 
     /**
      * Remove a question from the tag.
+     *
+     * @param Question $question
+     *
+     * @return self
      */
     public function removeQuestion(Question $question): self
     {

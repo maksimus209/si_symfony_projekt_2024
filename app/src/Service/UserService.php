@@ -22,6 +22,10 @@ class UserService implements UserServiceInterface
 
     /**
      * UserService constructor.
+     *
+     * @param UserPasswordHasherInterface $passwordHasher  Password hasher
+     * @param UserRepository               $userRepository  User repository
+     * @param ValidatorInterface           $validator       Validator
      */
     public function __construct(UserPasswordHasherInterface $passwordHasher, UserRepository $userRepository, ValidatorInterface $validator)
     {
@@ -30,6 +34,15 @@ class UserService implements UserServiceInterface
         $this->validator = $validator;
     }
 
+    /**
+     * Register a new user.
+     *
+     * @param string $email           User email
+     * @param string $password        User password
+     * @param string $confirmPassword Confirmation of the password
+     *
+     * @return User|null
+     */
     public function register(string $email, string $password, string $confirmPassword): ?User
     {
         // Validate input
@@ -54,3 +67,4 @@ class UserService implements UserServiceInterface
         return $user;
     }
 }
+
