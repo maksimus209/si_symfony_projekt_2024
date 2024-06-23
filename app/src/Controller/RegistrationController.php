@@ -5,16 +5,10 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use App\Service\UserService;
 use App\Service\UserServiceInterface;
 
 /**
@@ -22,16 +16,12 @@ use App\Service\UserServiceInterface;
  */
 class RegistrationController extends AbstractController
 {
-    private UserPasswordHasherInterface $passwordHasher;
-    private UserRepository $userRepository;
-    private ValidatorInterface $validator;
+    private UserServiceInterface $userService;
 
     /**
      * RegistrationController constructor.
      *
-     * @param UserPasswordHasherInterface $passwordHasher Password hasher
-     * @param UserRepository              $userRepository User repository
-     * @param ValidatorInterface          $validator      Validator
+     * @param UserServiceInterface $userService User service
      */
     public function __construct(UserServiceInterface $userService)
     {
@@ -57,10 +47,12 @@ class RegistrationController extends AbstractController
 
             if (!$user) {
                 $this->addFlash('error', 'Invalid input data.');
+
                 return $this->render('registration/register.html.twig');
             }
 
             $this->addFlash('success', 'Registration successful!');
+
             return $this->redirectToRoute('app_login');
         }
 

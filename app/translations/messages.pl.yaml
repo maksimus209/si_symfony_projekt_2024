@@ -1,3 +1,76 @@
-label.show: 'Pokaż'
-title.record_details: 'Szczegóły rekordu'
-label.back_to_list: 'Powrót do listy'
+# translations/messages.pl.yaml
+
+title:
+  question_list: "Lista pytań"
+  category_create: "Utwórz kategorię"
+  category_delete: "Usuń kategorię"
+  category_edit: "Edytuj kategorię"
+  category_list: "Lista kategorii"
+  questions_for_category: "Pytania dla kategorii: %category%"
+  category_details: "Szczegóły kategorii"
+  create_question: "Utwórz pytanie"
+  delete_question: "Usuń pytanie"
+  edit_question: "Edytuj pytanie"
+  question_details: "Szczegóły pytania #%id%"
+  answers: "Odpowiedzi"
+  add_answer: "Dodaj odpowiedź"
+
+question:
+  id: "ID pytania"
+  createdAt: "Utworzono"
+  updatedAt: "Zaktualizowano"
+  title: "Tytuł pytania"
+
+category:
+  id: "ID kategorii"
+  title: "Tytuł kategorii"
+  createdAt: "Utworzono"
+  updatedAt: "Zaktualizowano"
+
+tag:
+  name: "Nazwa tagu"
+
+label:
+  actions: "Akcje"
+  id: "ID"
+  created_at: "Utworzono"
+  updated_at: "Zaktualizowano"
+  title: "Tytuł"
+  category: "Kategoria"
+  author: "Autor"
+  tags: "Tagi"
+  best_answer: "Najlepsza odpowiedź"
+
+action:
+  show: "Pokaż"
+  edit: "Edytuj"
+  delete: "Usuń"
+  create: "Utwórz"
+  create_new_question: "Utwórz nowe pytanie"
+  back_to_list: "Powrót do listy"
+  mark_as_best: "Oznacz jako najlepszą"
+  login: "Zaloguj się"
+
+message:
+  delete_confirm: "Czy na pewno chcesz usunąć?"
+  deleted_successfully: "Usunięto pomyślnie"
+  created_successfully: "Utworzono pomyślnie"
+  updated_successfully: "Zaktualizowano pomyślnie"
+  category_contains_questions: "Kategoria zawiera pytania"
+  invalid_current_password: "Nieprawidłowe bieżące hasło"
+  email_password_changed_successfully: "E-mail i hasło zmienione pomyślnie"
+  user_updated_successfully: "Użytkownik zaktualizowany pomyślnie"
+  empty_list: "Lista jest pusta"
+  no_questions_found: "Nie znaleziono pytań dla tej kategorii"
+  record_not_found: "Nie znaleziono rekordu"
+  form_error: "Błąd formularza"
+  confirm_delete: "Potwierdź usunięcie"
+  no_answers: "Brak odpowiedzi"
+  login_to_answer: "Zaloguj się, aby dodać odpowiedź"
+
+button:
+  create: "Utwórz"
+  back_to_list: "Powrót do listy"
+  delete: "Usuń"
+  cancel: "Anuluj"
+  save_changes: "Zapisz zmiany"

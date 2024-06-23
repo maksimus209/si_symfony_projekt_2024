@@ -12,8 +12,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class UserService
- * @package App\Service
+ * Class UserService.
  */
 class UserService implements UserServiceInterface
 {
@@ -23,23 +22,14 @@ class UserService implements UserServiceInterface
 
     /**
      * UserService constructor.
-     * @param UserPasswordHasherInterface $passwordHasher
-     * @param UserRepository $userRepository
-     * @param ValidatorInterface $validator
      */
-    public function __construct(
-        UserPasswordHasherInterface $passwordHasher,
-        UserRepository $userRepository,
-        ValidatorInterface $validator
-    ) {
+    public function __construct(UserPasswordHasherInterface $passwordHasher, UserRepository $userRepository, ValidatorInterface $validator)
+    {
         $this->passwordHasher = $passwordHasher;
         $this->userRepository = $userRepository;
         $this->validator = $validator;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function register(string $email, string $password, string $confirmPassword): ?User
     {
         // Validate input

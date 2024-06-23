@@ -36,21 +36,43 @@ class TagService implements TagServiceInterface
         $this->formFactory = $formFactory;
     }
 
+    /**
+     * Get all tags.
+     *
+     * @return Tag[]
+     */
     public function getAllTags(): array
     {
         return $this->entityManager->getRepository(Tag::class)->findAll();
     }
 
+    /**
+     * Create a new tag.
+     *
+     * @param Request $request HTTP request
+     */
     public function createTag(Request $request): ?Tag
     {
         return $this->processForm(new Tag(), $request);
     }
 
+    /**
+     * Update an existing tag.
+     *
+     * @param Request $request HTTP request
+     * @param Tag     $tag     The tag entity
+     */
     public function updateTag(Request $request, Tag $tag): ?Tag
     {
         return $this->processForm($tag, $request);
     }
 
+    /**
+     * Delete a tag.
+     *
+     * @param Request $request HTTP request
+     * @param Tag     $tag     The tag entity
+     */
     public function deleteTag(Request $request, Tag $tag): void
     {
         if ($this->csrfTokenManager->isTokenValid(new CsrfToken('delete'.$tag->getId(), $request->request->get('_token')))) {

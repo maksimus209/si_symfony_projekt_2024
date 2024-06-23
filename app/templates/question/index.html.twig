@@ -15,12 +15,12 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>{{ knp_pagination_sortable(pagination, 'ID'|trans, 'question.id') }}</th>
-        <th>{{ knp_pagination_sortable(pagination, 'Data Utworzenia'|trans, 'question.createdAt') }}</th>
-        <th>{{ knp_pagination_sortable(pagination, 'Data aktualizacji'|trans, 'question.updatedAt') }}</th>
-        <th>{{ knp_pagination_sortable(pagination, 'Tytuł'|trans, 'question.title') }}</th>
-        <th>{{ knp_pagination_sortable(pagination, 'Kategoria'|trans, 'category.title') }}</th>
-        <th>{{ knp_pagination_sortable(pagination, 'Tagi'|trans, 'tag.name') }}</th>
+        <th>{{ knp_pagination_sortable(pagination, 'question.id'|trans, 'question.id') }}</th>
+        <th>{{ knp_pagination_sortable(pagination, 'question.createdAt'|trans, 'question.createdAt') }}</th>
+        <th>{{ knp_pagination_sortable(pagination, 'question.updatedAt'|trans, 'question.updatedAt') }}</th>
+        <th>{{ knp_pagination_sortable(pagination, 'question.title'|trans, 'question.title') }}</th>
+        <th>{{ knp_pagination_sortable(pagination, 'category.title'|trans, 'category.title') }}</th>
+        <th>{{ knp_pagination_sortable(pagination, 'tag.name'|trans, 'tag.name') }}</th>
         <th>{{ 'label.actions'|trans }}</th>
     </tr>
     </thead>
