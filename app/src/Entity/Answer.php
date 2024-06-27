@@ -28,14 +28,16 @@ class Answer
      * Content of the answer.
      */
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Content should not be blank.')]
+    #[Assert\Length(min: 5, max: 255)]
     private ?string $content = null;
 
     /**
      * Creation date of the answer.
      */
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\NotNull]
+    #[Assert\NotNull(message: 'Creation date cannot be null.')]
+    #[Assert\Type(\DateTimeInterface::class, message: 'Invalid date format.')]
     private ?\DateTimeInterface $createdAt = null;
 
     /**
@@ -43,6 +45,7 @@ class Answer
      */
     #[ORM\ManyToOne(inversedBy: 'answers')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull(message: 'Question cannot be null.')]
     private ?Question $question = null;
 
     /**
@@ -56,6 +59,7 @@ class Answer
      * Best answer flag.
      */
     #[ORM\Column(type: 'boolean')]
+    #[Assert\Type('bool', message: 'The value must be true or false.')]
     private bool $isBest = false;
 
     /**

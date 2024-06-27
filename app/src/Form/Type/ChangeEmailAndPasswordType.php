@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class ChangeEmailAndPasswordType.
@@ -21,6 +22,13 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class ChangeEmailAndPasswordType extends AbstractType
 {
+    private TranslatorInterface $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * Build form.
      *
@@ -31,21 +39,21 @@ class ChangeEmailAndPasswordType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'label' => 'New Email',
+                'label' => $this->translator->trans('change_email_password.new_email'),
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\Email(),
                 ],
             ])
             ->add('currentPassword', PasswordType::class, [
-                'label' => 'Current Password',
+                'label' => $this->translator->trans('change_email_password.current_password'),
                 'mapped' => false,
                 'constraints' => [
                     new Assert\NotBlank(),
                 ],
             ])
             ->add('newPassword', PasswordType::class, [
-                'label' => 'New Password',
+                'label' => $this->translator->trans('change_email_password.new_password'),
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
@@ -53,7 +61,7 @@ class ChangeEmailAndPasswordType extends AbstractType
                 ],
             ])
             ->add('confirmNewPassword', PasswordType::class, [
-                'label' => 'Confirm New Password',
+                'label' => $this->translator->trans('change_email_password.confirm_new_password'),
                 'mapped' => false,
                 'constraints' => [
                     new Assert\NotBlank(),
@@ -74,7 +82,7 @@ class ChangeEmailAndPasswordType extends AbstractType
         $newPassword = $form->get('newPassword')->getData();
 
         if ($value !== $newPassword) {
-            $context->buildViolation('Passwords do not match.')
+            $context->buildViolation($this->translator->trans('change_email_password.passwords_do_not_match'))
                 ->atPath('confirmNewPassword')
                 ->addViolation();
         }

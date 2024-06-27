@@ -60,6 +60,7 @@ class AnswerController extends AbstractController
         $form = $this->createForm(AnswerType::class, $answer);
         $form->handleRequest($request);
 
+        //filtrowanie
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($answer);
             $entityManager->flush();
