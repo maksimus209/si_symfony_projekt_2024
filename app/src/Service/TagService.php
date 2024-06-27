@@ -50,8 +50,6 @@ class TagService implements TagServiceInterface
      * Create a new tag.
      *
      * @param Request $request HTTP request
-     *
-     * @return Tag|null
      */
     public function createTag(Request $request): ?Tag
     {
@@ -63,8 +61,6 @@ class TagService implements TagServiceInterface
      *
      * @param Request $request HTTP request
      * @param Tag     $tag     The tag entity
-     *
-     * @return Tag|null
      */
     public function updateTag(Request $request, Tag $tag): ?Tag
     {
@@ -76,8 +72,6 @@ class TagService implements TagServiceInterface
      *
      * @param Request $request HTTP request
      * @param Tag     $tag     The tag entity
-     *
-     * @return void
      */
     public function deleteTag(Request $request, Tag $tag): void
     {
@@ -92,8 +86,6 @@ class TagService implements TagServiceInterface
      *
      * @param Tag     $tag     The tag entity
      * @param Request $request The HTTP request
-     *
-     * @return Tag|null
      */
     private function processForm(Tag $tag, Request $request): ?Tag
     {
@@ -110,4 +102,3 @@ class TagService implements TagServiceInterface
         return null;
     }
 }
-

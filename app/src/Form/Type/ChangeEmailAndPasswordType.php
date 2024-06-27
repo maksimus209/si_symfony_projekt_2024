@@ -24,6 +24,11 @@ class ChangeEmailAndPasswordType extends AbstractType
 {
     private TranslatorInterface $translator;
 
+    /**
+     * Constructor.
+     *
+     * @param TranslatorInterface $translator The translator service
+     */
     public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;
