@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Tag Question.
@@ -33,16 +32,12 @@ class Tag
      * Name of the tag.
      */
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: 'Tag name should not be blank.')]
-    #[Assert\Length(min: 3, max: 255)]
     private ?string $name = null;
 
     /**
      * Created at.
      */
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Assert\NotNull(message: 'Creation date cannot be null.')]
-    #[Assert\Type(\DateTimeImmutable::class, message: 'Invalid date format.')]
     #[Gedmo\Timestampable(on: 'create')]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -50,8 +45,6 @@ class Tag
      * Updated at.
      */
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Assert\NotNull(message: 'Update date cannot be null.')]
-    #[Assert\Type(\DateTimeImmutable::class, message: 'Invalid date format.')]
     #[Gedmo\Timestampable(on: 'update')]
     private ?\DateTimeImmutable $updatedAt = null;
 
@@ -73,6 +66,8 @@ class Tag
 
     /**
      * Get the ID of the tag.
+     *
+     * @return int|null
      */
     public function getId(): ?int
     {
@@ -81,6 +76,8 @@ class Tag
 
     /**
      * Get the name of the tag.
+     *
+     * @return string|null
      */
     public function getName(): ?string
     {
@@ -89,6 +86,10 @@ class Tag
 
     /**
      * Set the name of the tag.
+     *
+     * @param string $name
+     *
+     * @return self
      */
     public function setName(string $name): self
     {
@@ -99,6 +100,8 @@ class Tag
 
     /**
      * Get the created at date.
+     *
+     * @return \DateTimeImmutable|null
      */
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -107,6 +110,10 @@ class Tag
 
     /**
      * Set the created at date.
+     *
+     * @param \DateTimeImmutable $createdAt
+     *
+     * @return self
      */
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
@@ -117,6 +124,8 @@ class Tag
 
     /**
      * Get the updated at date.
+     *
+     * @return \DateTimeImmutable|null
      */
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
@@ -125,6 +134,10 @@ class Tag
 
     /**
      * Set the updated at date.
+     *
+     * @param \DateTimeImmutable $updatedAt
+     *
+     * @return self
      */
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
@@ -145,6 +158,10 @@ class Tag
 
     /**
      * Add a question to the tag.
+     *
+     * @param Question $question
+     *
+     * @return self
      */
     public function addQuestion(Question $question): self
     {
@@ -158,6 +175,10 @@ class Tag
 
     /**
      * Remove a question from the tag.
+     *
+     * @param Question $question
+     *
+     * @return self
      */
     public function removeQuestion(Question $question): self
     {

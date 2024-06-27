@@ -9,6 +9,7 @@ use App\Entity\Question;
 use App\Repository\QuestionRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * Class QuestionService.
@@ -32,21 +33,26 @@ class QuestionService implements QuestionServiceInterface
      * @param QuestionRepository $questionRepository Question repository
      * @param PaginatorInterface $paginator          Paginator
      */
-    public function __construct(private readonly QuestionRepository $questionRepository, private readonly PaginatorInterface $paginator)
-    {
+    public function __construct(
+        private readonly QuestionRepository $questionRepository,
+        private readonly PaginatorInterface $paginator
+    ) {
     }
 
     /**
      * Get paginated list.
      *
      * @param int $page Page number
+     * @param QueryBuilder|null $queryBuilder Optional QueryBuilder
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page): PaginationInterface
+    public function getPaginatedList(int $page, ?QueryBuilder $queryBuilder = null): PaginationInterface
     {
+        $queryBuilder = $queryBuilder ?? $this->questionRepository->queryAll();
+
         return $this->paginator->paginate(
-            $this->questionRepository->queryAll(),
+            $queryBuilder,
             $page,
             self::PAGINATOR_ITEMS_PER_PAGE
         );

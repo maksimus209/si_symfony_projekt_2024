@@ -40,6 +40,8 @@ class UserService implements UserServiceInterface
      * @param string $email           User email
      * @param string $password        User password
      * @param string $confirmPassword Confirmation of the password
+     *
+     * @return User|null The registered User entity if successful, or null if validation fails
      */
     public function register(string $email, string $password, string $confirmPassword): ?User
     {
