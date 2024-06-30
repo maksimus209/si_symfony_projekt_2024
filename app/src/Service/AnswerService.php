@@ -11,7 +11,7 @@ use App\Repository\AnswerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Class AnswerService
+ * Class AnswerService.
  *
  * Serwis odpowiedzialny za operacje na odpowiedziach.
  */

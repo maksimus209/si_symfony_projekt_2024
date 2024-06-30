@@ -9,7 +9,7 @@ use App\Entity\Answer;
 use App\Entity\Question;
 
 /**
- * Interface AnswerServiceInterface
+ * Interface AnswerServiceInterface.
  *
  * Interfejs serwisu odpowiedzialnego za operacje na odpowiedziach.
  */

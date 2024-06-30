@@ -8,8 +8,7 @@ namespace App\Service;
 use App\Entity\User;
 
 /**
- * Interface UserManagerServiceInterface
- *
+ * Interface UserManagerServiceInterface.
  */
 interface UserManagerServiceInterface
 {

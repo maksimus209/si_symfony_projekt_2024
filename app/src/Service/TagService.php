@@ -73,10 +73,9 @@ class TagService implements TagServiceInterface
 
     /**
      * Delete a tag.
+     *
      * @param Request $request HTTP request
      * @param Tag     $tag     The tag entity
-     *
-     * @return void
      */
     public function deleteTag(Request $request, Tag $tag): void
     {

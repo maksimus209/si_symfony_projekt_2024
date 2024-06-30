@@ -8,7 +8,7 @@ namespace App\Service;
 use App\Entity\User;
 
 /**
- * Interface AccountServiceInterface
+ * Interface AccountServiceInterface.
  *
  * Interfejs serwisu odpowiedzialnego za operacje na kontach użytkowników.
  */

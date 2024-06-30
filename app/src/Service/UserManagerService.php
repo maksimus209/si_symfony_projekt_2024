@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
- * Class UserManagerService
+ * Class UserManagerService.
  *
  * Serwis odpowiedzialny za operacje na kontach użytkowników.
  */
