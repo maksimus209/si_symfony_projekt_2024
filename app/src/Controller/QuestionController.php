@@ -131,7 +131,7 @@ class QuestionController extends AbstractController
     {
         $question = new Question();
         $form = $this->createForm(QuestionType::class, $question, [
-            'action' => $this->generateUrl('question_create')
+            'action' => $this->generateUrl('question_create'),
         ]);
         $form->handleRequest($request);
 
