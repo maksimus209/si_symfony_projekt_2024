@@ -33,16 +33,14 @@ class QuestionService implements QuestionServiceInterface
      * @param QuestionRepository $questionRepository Question repository
      * @param PaginatorInterface $paginator          Paginator
      */
-    public function __construct(
-        private readonly QuestionRepository $questionRepository,
-        private readonly PaginatorInterface $paginator
-    ) {
+    public function __construct(private readonly QuestionRepository $questionRepository, private readonly PaginatorInterface $paginator)
+    {
     }
 
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int               $page         Page number
      * @param QueryBuilder|null $queryBuilder Optional QueryBuilder
      *
      * @return PaginationInterface<string, mixed> Paginated list

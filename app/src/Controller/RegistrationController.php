@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\UserServiceInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class RegistrationController.
@@ -17,15 +18,18 @@ use App\Service\UserServiceInterface;
 class RegistrationController extends AbstractController
 {
     private UserServiceInterface $userService;
+    private TranslatorInterface $translator;
 
     /**
      * RegistrationController constructor.
      *
      * @param UserServiceInterface $userService User service
+     * @param TranslatorInterface  $translator  Translator
      */
-    public function __construct(UserServiceInterface $userService)
+    public function __construct(UserServiceInterface $userService, TranslatorInterface $translator)
     {
         $this->userService = $userService;
+        $this->translator = $translator;
     }
 
     /**
@@ -46,12 +50,12 @@ class RegistrationController extends AbstractController
             $user = $this->userService->register($email, $plainPassword, $confirmPassword);
 
             if (!$user) {
-                $this->addFlash('error', 'Invalid input data.');
+                $this->addFlash('error', $this->translator->trans('message.invalid_input_data'));
 
                 return $this->render('registration/register.html.twig');
             }
 
-            $this->addFlash('success', 'Registration successful!');
+            $this->addFlash('success', $this->translator->trans('message.registration_successful'));
 
             return $this->redirectToRoute('app_login');
         }

@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\Table(name: 'categories')]
-#[UniqueEntity(fields: ['title'])]
+#[UniqueEntity(fields: ['title'], message: 'validators.category.title.unique')]
 class Category
 {
     /**
@@ -33,36 +33,49 @@ class Category
      * Created at.
      */
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Assert\Type(\DateTimeImmutable::class)]
+    #[Assert\Type(\DateTimeImmutable::class, message: 'validators.category.created_at.type')]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?\DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     /**
      * Updated at.
      */
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Assert\Type(\DateTimeImmutable::class)]
+    #[Assert\Type(\DateTimeImmutable::class, message: 'validators.category.updated_at.type')]
     #[Gedmo\Timestampable(on: 'update')]
-    private ?\DateTimeImmutable $updatedAt;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * Title.
      */
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 3, max: 64)]
-    private ?string $title;
+    #[Assert\Type('string', message: 'validators.category.title.type')]
+    #[Assert\NotBlank(message: 'validators.category.title.not_blank')]
+    #[Assert\Length(
+        min: 3,
+        max: 64,
+        minMessage: 'validators.category.title.length_min',
+        maxMessage: 'validators.category.title.length_max'
+    )]
+    private ?string $title = null;
 
     /**
      * Slug.
      */
     #[ORM\Column(type: 'string', length: 64)]
-    #[Assert\Type('string')]
-    #[Assert\Length(min: 3, max: 64)]
+    #[Assert\Type('string', message: 'validators.category.slug.type')]
+    #[Assert\Length(
+        min: 3,
+        max: 64,
+        minMessage: 'validators.category.slug.length_min',
+        maxMessage: 'validators.category.slug.length_max'
+    )]
     #[Gedmo\Slug(fields: ['title'])]
-    private ?string $slug;
+    private ?string $slug = null;
 
+    /**
+     * Questions.
+     */
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Question::class)]
     private Collection $questions;
 
@@ -229,7 +242,7 @@ class Category
     /**
      * String representation of the category.
      *
-     * @return string|null Slug
+     * @return string Title
      */
     public function __toString(): string
     {

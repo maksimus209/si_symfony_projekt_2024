@@ -92,6 +92,7 @@ class TagService implements TagServiceInterface
      * @param Tag     $tag     The tag entity
      * @param Request $request The HTTP request
      *
+     * @return Tag|null
      */
     private function processForm(Tag $tag, Request $request): ?Tag
     {

@@ -49,15 +49,8 @@ class QuestionController extends AbstractController
      * @param EntityManagerInterface   $entityManager      Entity manager
      * @param TranslatorInterface      $translator         Translator
      */
-    public function __construct(
-        QuestionServiceInterface $questionService,
-        AnswerRepository $answerRepository,
-        TagRepository $tagRepository,
-        CategoryRepository $categoryRepository,
-        QuestionRepository $questionRepository,
-        EntityManagerInterface $entityManager,
-        TranslatorInterface $translator
-    ) {
+    public function __construct(QuestionServiceInterface $questionService, AnswerRepository $answerRepository, TagRepository $tagRepository, CategoryRepository $categoryRepository, QuestionRepository $questionRepository, EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    {
         $this->questionService = $questionService;
         $this->answerRepository = $answerRepository;
         $this->tagRepository = $tagRepository;

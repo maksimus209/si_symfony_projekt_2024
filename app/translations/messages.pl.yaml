@@ -1,5 +1,3 @@
-# translations/messages.pl.yaml
-
 title:
   question_list: "Lista pytań"
   category_create: "Utwórz kategorię"
@@ -67,6 +65,8 @@ message:
   confirm_delete: "Potwierdź usunięcie"
   no_answers: "Brak odpowiedzi"
   login_to_answer: "Zaloguj się, aby dodać odpowiedź"
+  invalid_input_data: "Dane są nie poprawne"
+  registration_successful: "Rejestracja się udała!"
 
 button:
   create: "Utwórz"
@@ -82,3 +82,66 @@ change_email_password:
   confirm_new_password: "Potwierdź nowe hasło"
   passwords_do_not_match: "Hasła nie są zgodne."
 
+validators:
+  answer:
+    content:
+      not_blank: 'Treść nie może być pusta.'
+      length_min: 'Treść powinna mieć co najmniej {{ limit }} znaków.'
+      length_max: 'Treść powinna mieć maksymalnie {{ limit }} znaków.'
+    created_at:
+      not_null: 'Data utworzenia nie może być pusta.'
+      type: 'Nieprawidłowy format daty.'
+    question:
+      not_null: 'Pytanie nie może być puste.'
+    is_best:
+      type: 'Wartość musi być prawdziwa lub fałszywa.'
+  category:
+    title:
+      unique: 'Tytuł musi być unikalny.'
+      type: 'Tytuł musi być ciągiem znaków.'
+      not_blank: 'Tytuł nie może być pusty.'
+      length_min: 'Tytuł powinien mieć co najmniej {{ limit }} znaki.'
+      length_max: 'Tytuł powinien mieć maksymalnie {{ limit }} znaków.'
+    created_at:
+      type: 'Nieprawidłowy format daty dla pola created_at.'
+    updated_at:
+      type: 'Nieprawidłowy format daty dla pola updated_at.'
+    slug:
+      type: 'Slug musi być ciągiem znaków.'
+      length_min: 'Slug powinien mieć co najmniej {{ limit }} znaki.'
+      length_max: 'Slug powinien mieć maksymalnie {{ limit }} znaków.'
+  question:
+    created_at:
+      not_null: 'Data utworzenia nie może być pusta.'
+      type: 'Nieprawidłowy format daty.'
+    updated_at:
+      not_null: 'Data aktualizacji nie może być pusta.'
+      type: 'Nieprawidłowy format daty.'
+    title:
+      not_blank: 'Tytuł nie może być pusty.'
+      length_min: 'Tytuł powinien mieć co najmniej {{ limit }} znaki.'
+      length_max: 'Tytuł powinien mieć maksymalnie {{ limit }} znaków.'
+    content:
+      not_blank: 'Treść nie może być pusta.'
+      length_min: 'Treść powinna mieć co najmniej {{ limit }} znaków.'
+    category:
+      not_null: 'Kategoria nie może być pusta.'
+    author:
+      not_null: 'Autor nie może być pusty.'
+  tag:
+    name:
+      not_blank: 'Nazwa nie może być pusta.'
+      length_min: 'Nazwa powinna mieć co najmniej {{ limit }} znaki.'
+      length_max: 'Nazwa powinna mieć maksymalnie {{ limit }} znaków.'
+    created_at:
+      not_null: 'Data utworzenia nie może być pusta.'
+      type: 'Nieprawidłowy format daty.'
+    updated_at:
+      not_null: 'Data aktualizacji nie może być pusta.'
+      type: 'Nieprawidłowy format daty.'
+  user:
+    email:
+      not_blank: 'Email nie może być pusty.'
+      email: 'Podaj prawidłowy adres email.'
+    password:
+      not_blank: 'Hasło nie może być puste.'

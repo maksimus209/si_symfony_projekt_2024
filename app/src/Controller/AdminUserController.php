@@ -13,7 +13,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\Type\ChangeEmailAndPasswordType;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\UserManagerServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,19 +29,16 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 class AdminUserController extends AbstractController
 {
-    private EntityManagerInterface $entityManager;
-    private UserPasswordHasherInterface $passwordHasher;
+    private UserManagerServiceInterface $userManagerService;
 
     /**
      * AdminUserController constructor.
      *
-     * @param EntityManagerInterface      $entityManager  Entity manager
-     * @param UserPasswordHasherInterface $passwordHasher Password hasher
+     * @param UserManagerServiceInterface $userManagerService Serwis zarządzania użytkownikami
      */
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
+    public function __construct(UserManagerServiceInterface $userManagerService)
     {
-        $this->entityManager = $entityManager;
-        $this->passwordHasher = $passwordHasher;
+        $this->userManagerService = $userManagerService;
     }
 
     /**
@@ -52,7 +49,7 @@ class AdminUserController extends AbstractController
     #[Route('/users', name: 'admin_user_index', methods: ['GET'])]
     public function index(): Response
     {
-        $users = $this->entityManager->getRepository(User::class)->findAll();
+        $users = $this->userManagerService->findAllUsers();
 
         return $this->render('admin/user/index.html.twig', [
             'users' => $users,
@@ -75,13 +72,20 @@ class AdminUserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Kodowanie nowego hasła przed zapisaniem
-            if ($newPassword = $form->get('newPassword')->getData()) {
-                $encodedPassword = $this->passwordHasher->hashPassword($user, $newPassword);
-                $user->setPassword($encodedPassword);
+            // Zmiana emaila
+            $email = $form->get('email')->getData();
+            $this->userManagerService->changeEmail($user, $email);
+
+            // Zmiana hasła
+            $currentPassword = $form->get('currentPassword')->getData();
+            $newPassword = $form->get('newPassword')->getData();
+            if (!empty($newPassword) && !$this->userManagerService->changePassword($user, $currentPassword, $newPassword)) {
+                $this->addFlash('error', $translator->trans('message.invalid_current_password'));
+
+                return $this->redirectToRoute('admin_user_edit', ['id' => $user->getId()]);
             }
 
-            $this->entityManager->flush();
+            $this->userManagerService->save($user);
 
             $this->addFlash('success', $translator->trans('message.user_updated_successfully'));
 

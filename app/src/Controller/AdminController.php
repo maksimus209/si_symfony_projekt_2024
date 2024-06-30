@@ -6,11 +6,10 @@
 namespace App\Controller;
 
 use App\Form\Type\ChangeEmailAndPasswordType;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\AccountServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -21,20 +20,20 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
  */
 class AdminController extends AbstractController
 {
-    private EntityManagerInterface $entityManager;
+    private AccountServiceInterface $accountService;
 
     /**
      * AdminController constructor.
      *
-     * @param EntityManagerInterface $entityManager The entity manager
+     * @param AccountServiceInterface $accountService Serwis konta
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(AccountServiceInterface $accountService)
     {
-        $this->entityManager = $entityManager;
+        $this->accountService = $accountService;
     }
 
     /**
-     * Admin profile action.
+     * Akcja profilu administratora.
      *
      * @return Response HTTP response
      */
@@ -50,17 +49,16 @@ class AdminController extends AbstractController
     }
 
     /**
-     * Change email and password action.
+     * Akcja zmiany emaila i hasła.
      *
-     * @param Request                     $request        HTTP request
-     * @param UserPasswordHasherInterface $passwordHasher Password hasher
-     * @param TranslatorInterface         $translator     Translator
+     * @param Request             $request    HTTP request
+     * @param TranslatorInterface $translator Translator
      *
      * @return Response HTTP response
      */
     #[Route('/admin/change-email-password', name: 'admin_change_email_password', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function changeEmailAndPassword(Request $request, UserPasswordHasherInterface $passwordHasher, TranslatorInterface $translator): Response
+    public function changeEmailAndPassword(Request $request, TranslatorInterface $translator): Response
     {
         /** @var PasswordAuthenticatedUserInterface|null $user */
         $user = $this->getUser();
@@ -72,24 +70,20 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Handle email change
+            // Zmiana emaila
             $email = $form->get('email')->getData();
-            $user->setEmail($email);
+            $this->accountService->changeEmail($user, $email);
 
-            // Handle password change
+            // Zmiana hasła
             $currentPassword = $form->get('currentPassword')->getData();
-            if (!$passwordHasher->isPasswordValid($user, $currentPassword)) {
+            $newPassword = $form->get('newPassword')->getData();
+            if (!empty($newPassword) && !$this->accountService->changePassword($user, $currentPassword, $newPassword)) {
                 $this->addFlash('error', $translator->trans('message.invalid_current_password'));
 
                 return $this->redirectToRoute('admin_change_email_password');
             }
 
-            $newPassword = $form->get('newPassword')->getData();
-            if (!empty($newPassword)) {
-                $user->setPassword($passwordHasher->hashPassword($user, $newPassword));
-            }
-
-            $this->entityManager->flush();
+            $this->accountService->save($user);
 
             $this->addFlash('success', $translator->trans('message.email_password_changed_successfully'));
 

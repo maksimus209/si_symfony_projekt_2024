@@ -1,23 +1,147 @@
 title:
-  question_details: 'Question Details #%id%'
-  answers: 'Answers'
-  add_answer: 'Add an Answer'
+  question_list: "Question List"
+  category_create: "Create Category"
+  category_delete: "Delete Category"
+  category_edit: "Edit Category"
+  category_list: "Category List"
+  questions_for_category: "Questions for Category: %category%"
+  category_details: "Category Details"
+  create_question: "Create Question"
+  delete_question: "Delete Question"
+  edit_question: "Edit Question"
+  question_details: "Question Details #%id%"
+  answers: "Answers"
+  add_answer: "Add Answer"
+
+question:
+  id: "Question ID"
+  createdAt: "Created At"
+  updatedAt: "Updated At"
+  title: "Question Title"
+
+category:
+  id: "Category ID"
+  title: "Category Title"
+  createdAt: "Created At"
+  updatedAt: "Updated At"
+
+tag:
+  name: "Tag Name"
+
 label:
-  id: 'ID'
-  created_at: 'Created At'
-  updated_at: 'Updated At'
-  title: 'Title'
-  category: 'Category'
-  tags: 'Tags'
-  content: 'Content'
+  actions: "Actions"
+  id: "ID"
+  created_at: "Created At"
+  updated_at: "Updated At"
+  title: "Title"
+  category: "Category"
+  author: "Author"
+  tags: "Tags"
+  best_answer: "Best Answer"
+
 action:
-  back_to_list: 'Back to list'
-  submit: 'Submit'
-  login: 'Login'
+  show: "Show"
+  edit: "Edit"
+  delete: "Delete"
+  create: "Create"
+  create_new_question: "Create New Question"
+  back_to_list: "Back to List"
+  mark_as_best: "Mark as Best"
+  login: "Login"
+
 message:
-  record_not_found: 'Record not found.'
-  no_answers: 'No answers yet.'
-  login_to_answer: 'Please log in to add an answer.'
-title.questions_for_category: "Questions for category: %category%"
-message.no_questions_found: "No questions found for this category."
-action.back_to_list: "Back to list"
+  delete_confirm: "Are you sure you want to delete?"
+  deleted_successfully: "Deleted successfully"
+  created_successfully: "Created successfully"
+  updated_successfully: "Updated successfully"
+  category_contains_questions: "Category contains questions"
+  invalid_current_password: "Invalid current password"
+  email_password_changed_successfully: "Email and password changed successfully"
+  user_updated_successfully: "User updated successfully"
+  empty_list: "List is empty"
+  no_questions_found: "No questions found for this category"
+  record_not_found: "Record not found"
+  form_error: "Form error"
+  confirm_delete: "Confirm delete"
+  no_answers: "No answers"
+  login_to_answer: "Login to add an answer"
+  invalid_input_data: "Invalid input data"
+  registration_successful: "Registration successful!"
+
+button:
+  create: "Create"
+  back_to_list: "Back to List"
+  delete: "Delete"
+  cancel: "Cancel"
+  save_changes: "Save Changes"
+
+change_email_password:
+  new_email: "New Email"
+  current_password: "Current Password"
+  new_password: "New Password"
+  confirm_new_password: "Confirm New Password"
+  passwords_do_not_match: "Passwords do not match."
+
+validators:
+  answer:
+    content:
+      not_blank: 'Content should not be blank.'
+      length_min: 'Content should be at least {{ limit }} characters long.'
+      length_max: 'Content should be at most {{ limit }} characters long.'
+    created_at:
+      not_null: 'Creation date cannot be null.'
+      type: 'Invalid date format.'
+    question:
+      not_null: 'Question cannot be null.'
+    is_best:
+      type: 'The value must be true or false.'
+  category:
+    title:
+      unique: 'The title must be unique.'
+      type: 'The title must be a string.'
+      not_blank: 'The title cannot be blank.'
+      length_min: 'The title should be at least {{ limit }} characters long.'
+      length_max: 'The title should be at most {{ limit }} characters long.'
+    created_at:
+      type: 'Invalid date format for created_at.'
+    updated_at:
+      type: 'Invalid date format for updated_at.'
+    slug:
+      type: 'The slug must be a string.'
+      length_min: 'The slug should be at least {{ limit }} characters long.'
+      length_max: 'The slug should be at most {{ limit }} characters long.'
+  question:
+    created_at:
+      not_null: 'Creation date cannot be null.'
+      type: 'Invalid date format.'
+    updated_at:
+      not_null: 'Update date cannot be null.'
+      type: 'Invalid date format.'
+    title:
+      not_blank: 'The title cannot be blank.'
+      length_min: 'The title should be at least {{ limit }} characters long.'
+      length_max: 'The title should be at most {{ limit }} characters long.'
+    content:
+      not_blank: 'The content cannot be blank.'
+      length_min: 'The content should be at least {{ limit }} characters long.'
+    category:
+      not_null: 'The category cannot be null.'
+    author:
+      not_null: 'The author cannot be null.'
+  tag:
+    name:
+      not_blank: 'The name cannot be blank.'
+      length_min: 'The name should be at least {{ limit }} characters long.'
+      length_max: 'The name should be at most {{ limit }} characters long.'
+    created_at:
+      not_null: 'The creation date cannot be null.'
+      type: 'Invalid date format.'
+    updated_at:
+      not_null: 'The update date cannot be null.'
+      type: 'Invalid date format.'
+  user:
+    email:
+      not_blank: 'Email cannot be blank.'
+      email: 'Please provide a valid email address.'
+    password:
+      not_blank: 'Password cannot be blank.'

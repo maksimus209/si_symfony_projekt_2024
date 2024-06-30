@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Tag Question.
@@ -32,12 +33,21 @@ class Tag
      * Name of the tag.
      */
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'validators.tag.name.not_blank')]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: 'validators.tag.name.length_min',
+        maxMessage: 'validators.tag.name.length_max'
+    )]
     private ?string $name = null;
 
     /**
      * Created at.
      */
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Assert\NotNull(message: 'validators.tag.created_at.not_null')]
+    #[Assert\Type(\DateTimeImmutable::class, message: 'validators.tag.created_at.type')]
     #[Gedmo\Timestampable(on: 'create')]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -45,6 +55,8 @@ class Tag
      * Updated at.
      */
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Assert\NotNull(message: 'validators.tag.updated_at.not_null')]
+    #[Assert\Type(\DateTimeImmutable::class, message: 'validators.tag.updated_at.type')]
     #[Gedmo\Timestampable(on: 'update')]
     private ?\DateTimeImmutable $updatedAt = null;
 

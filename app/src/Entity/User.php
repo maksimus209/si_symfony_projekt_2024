@@ -32,8 +32,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * Email.
      */
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Assert\NotBlank]
-    #[Assert\Email]
+    #[Assert\NotBlank(message: 'validators.user.email.not_blank')]
+    #[Assert\Email(message: 'validators.user.email.email')]
     private ?string $email = null;
 
     /**
@@ -48,7 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * Password.
      */
     #[ORM\Column(type: 'string')]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'validators.user.password.not_blank')]
     private ?string $password = null;
 
     /**

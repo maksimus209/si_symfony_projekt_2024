@@ -28,16 +28,21 @@ class Answer
      * Content of the answer.
      */
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: 'Content should not be blank.')]
-    #[Assert\Length(min: 5, max: 255)]
+    #[Assert\NotBlank(message: 'validators.answer.content.not_blank')]
+    #[Assert\Length(
+        min: 5,
+        max: 255,
+        minMessage: 'validators.answer.content.length_min',
+        maxMessage: 'validators.answer.content.length_max'
+    )]
     private ?string $content = null;
 
     /**
      * Creation date of the answer.
      */
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\NotNull(message: 'Creation date cannot be null.')]
-    #[Assert\Type(\DateTimeInterface::class, message: 'Invalid date format.')]
+    #[Assert\NotNull(message: 'validators.answer.created_at.not_null')]
+    #[Assert\Type(\DateTimeInterface::class, message: 'validators.answer.created_at.type')]
     private ?\DateTimeInterface $createdAt = null;
 
     /**
@@ -45,7 +50,7 @@ class Answer
      */
     #[ORM\ManyToOne(inversedBy: 'answers')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull(message: 'Question cannot be null.')]
+    #[Assert\NotNull(message: 'validators.answer.question.not_null')]
     private ?Question $question = null;
 
     /**
@@ -59,7 +64,7 @@ class Answer
      * Best answer flag.
      */
     #[ORM\Column(type: 'boolean')]
-    #[Assert\Type('bool', message: 'The value must be true or false.')]
+    #[Assert\Type('bool', message: 'validators.answer.is_best.type')]
     private bool $isBest = false;
 
     /**
