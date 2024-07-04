@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<xliff version="1.2">
+  <file source-language="en" target-language="pl" datatype="plaintext" original="file.ext">
+    <body>
+      <!-- Category validators -->
+      <trans-unit id="validators.category.title.unique">
+        <source>validators.category.title.unique</source>
+        <target>Tytuł kategorii musi być unikalny.</target>
+      </trans-unit>
+      <trans-unit id="validators.category.created_at.type">
+        <source>validators.category.created_at.type</source>
+        <target>Data utworzenia musi być poprawną datą.</target>
+      </trans-unit>
+      <trans-unit id="validators.category.updated_at.type">
+        <source>validators.category.updated_at.type</source>
+        <target>Data aktualizacji musi być poprawną datą.</target>
+      </trans-unit>
+      <trans-unit id="validators.category.title.type">
+        <source>validators.category.title.type</source>
+        <target>Tytuł kategorii musi być poprawnym ciągiem znaków.</target>
+      </trans-unit>
+      <trans-unit id="validators.category.title.not_blank">
+        <source>validators.category.title.not_blank</source>
+        <target>Tytuł kategorii nie może być pusty.</target>
+      </trans-unit>
+      <trans-unit id="validators.category.title.length_min">
+        <source>validators.category.title.length_min</source>
+        <target>Tytuł kategorii musi mieć co najmniej {{ limit }} znaki.</target>
+      </trans-unit>
+      <trans-unit id="validators.category.title.length_max">
+        <source>validators.category.title.length_max</source>
+        <target>Tytuł kategorii nie może być dłuższy niż {{ limit }} znaków.</target>
+      </trans-unit>
+      <trans-unit id="validators.category.slug.type">
+        <source>validators.category.slug.type</source>
+        <target>Slug kategorii musi być poprawnym ciągiem znaków.</target>
+      </trans-unit>
+      <trans-unit id="validators.category.slug.length_min">
+        <source>validators.category.slug.length_min</source>
+        <target>Slug kategorii musi mieć co najmniej {{ limit }} znaki.</target>
+      </trans-unit>
+      <trans-unit id="validators.category.slug.length_max">
+        <source>validators.category.slug.length_max</source>
+        <target>Slug kategorii nie może być dłuższy niż {{ limit }} znaków.</target>
+      </trans-unit>
+
+      <!-- Question validators -->
+      <trans-unit id="validators.question.created_at.not_null">
+        <source>validators.question.created_at.not_null</source>
+        <target>Data utworzenia nie może być pusta.</target>
+      </trans-unit>
+      <trans-unit id="validators.question.created_at.type">
+        <source>validators.question.created_at.type</source>
+        <target>Data utworzenia musi być poprawną datą.</target>
+      </trans-unit>
+      <trans-unit id="validators.question.updated_at.not_null">
+        <source>validators.question.updated_at.not_null</source>
+        <target>Data aktualizacji nie może być pusta.</target>
+      </trans-unit>
+      <trans-unit id="validators.question.updated_at.type">
+        <source>validators.question.updated_at.type</source>
+        <target>Data aktualizacji musi być poprawną datą.</target>
+      </trans-unit>
+      <trans-unit id="validators.question.title.not_blank">
+        <source>validators.question.title.not_blank</source>
+        <target>Tytuł pytania nie może być pusty.</target>
+      </trans-unit>
+      <trans-unit id="validators.question.title.length_min">
+        <source>validators.question.title.length_min</source>
+        <target>Tytuł pytania musi mieć co najmniej {{ limit }} znaki.</target>
+      </trans-unit>
+      <trans-unit id="validators.question.title.length_max">
+        <source>validators.question.title.length_max</source>
+        <target>Tytuł pytania nie może być dłuższy niż {{ limit }} znaków.</target>
+      </trans-unit>
+      <trans-unit id="validators.question.content.not_blank">
+        <source>validators.question.content.not_blank</source>
+        <target>Treść pytania nie może być pusta.</target>
+      </trans-unit>
+      <trans-unit id="validators.question.content.length_min">
+        <source>validators.question.content.length_min</source>
+        <target>Treść pytania musi mieć co najmniej {{ limit }} znaki.</target>
+      </trans-unit>
+      <trans-unit id="validators.question.category.not_null">
+        <source>validators.question.category.not_null</source>
+        <target>Kategoria nie może być pusta.</target>
+      </trans-unit>
+      <trans-unit id="validators.question.author.not_null">
+        <source>validators.question.author.not_null</source>
+        <target>Autor nie może być pusty.</target>
+      </trans-unit>
+
+      <!-- Answer validators -->
+      <trans-unit id="validators.answer.content.not_blank">
+        <source>validators.answer.content.not_blank</source>
+        <target>Treść odpowiedzi nie może być pusta.</target>
+      </trans-unit>
+      <trans-unit id="validators.answer.content.length_min">
+        <source>validators.answer.content.length_min</source>
+        <target>Treść odpowiedzi musi mieć co najmniej {{ limit }} znaki.</target>
+      </trans-unit>
+      <trans-unit id="validators.answer.content.length_max">
+        <source>validators.answer.content.length_max</source>
+        <target>Treść odpowiedzi nie może być dłuższa niż {{ limit }} znaków.</target>
+      </trans-unit>
+      <trans-unit id="validators.answer.created_at.not_null">
+        <source>validators.answer.created_at.not_null</source>
+        <target>Data utworzenia nie może być pusta.</target>
+      </trans-unit>
+      <trans-unit id="validators.answer.created_at.type">
+        <source>validators.answer.created_at.type</source>
+        <target>Data utworzenia musi być poprawną datą.</target>
+      </trans-unit>
+      <trans-unit id="validators.answer.question.not_null">
+        <source>validators.answer.question.not_null</source>
+        <target>Pytanie nie może być puste.</target>
+      </trans-unit>
+      <trans-unit id="validators.answer.is_best.type">
+        <source>validators.answer.is_best.type</source>
+        <target>Flaga najlepszej odpowiedzi musi być poprawnym typem boolean.</target>
+      </trans-unit>
+
+      <!-- Tag validators -->
+      <trans-unit id="validators.tag.name.not_blank">
+        <source>validators.tag.name.not_blank</source>
+        <target>Nazwa tagu nie może być pusta.</target>
+      </trans-unit>
+      <trans-unit id="validators.tag.name.length_min">
+        <source>validators.tag.name.length_min</source>
+        <target>Nazwa tagu musi mieć co najmniej {{ limit }} znaki.</target>
+      </trans-unit>
+      <trans-unit id="validators.tag.name.length_max">
+        <source>validators.tag.name.length_max</source>
+        <target>Nazwa tagu nie może być dłuższa niż {{ limit }} znaków.</target>
+      </trans-unit>
+      <trans-unit id="validators.tag.created_at.not_null">
+        <source>validators.tag.created_at.not_null</source>
+        <target>Data utworzenia nie może być pusta.</target>
+      </trans-unit>
+      <trans-unit id="validators.tag.created_at.type">
+        <source>validators.tag.created_at.type</source>
+        <target>Data utworzenia musi być poprawną datą.</target>
+      </trans-unit>
+      <trans-unit id="validators.tag.updated_at.not_null">
+        <source>validators.tag.updated_at.not_null</source>
+        <target>Data aktualizacji nie może być pusta.</target>
+      </trans-unit>
+      <trans-unit id="validators.tag.updated_at.type">
+        <source>validators.tag.updated_at.type</source>
+        <target>Data aktualizacji musi być poprawną datą.</target>
+      </trans-unit>
+
+      <!-- User validators -->
+      <trans-unit id="validators.user.email.not_blank">
+        <source>validators.user.email.not_blank</source>
+        <target>Email nie może być pusty.</target>
+      </trans-unit>
+      <trans-unit id="validators.user.email.email">
+        <source>validators.user.email.email</source>
+        <target>Email musi być poprawnym adresem email.</target>
+      </trans-unit>
+      <trans-unit id="validators.user.password.not_blank">
+        <source>validators.user.password.not_blank</source>
+        <target>Hasło nie może być puste.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

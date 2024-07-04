@@ -39,7 +39,7 @@ class TagService implements TagServiceInterface
     /**
      * Get all tags.
      *
-     * @return Tag[]
+     * @return Tag[] List of tags
      */
     public function getAllTags(): array
     {
@@ -91,7 +91,7 @@ class TagService implements TagServiceInterface
      * @param Tag     $tag     The tag entity
      * @param Request $request The HTTP request
      *
-     * @return Tag|null
+     * @return Tag|null The processed Tag entity if successful, or null if form submission failed
      */
     private function processForm(Tag $tag, Request $request): ?Tag
     {
